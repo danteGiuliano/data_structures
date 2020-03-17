@@ -22,12 +22,20 @@ public class testPilaDinamicaV1 {
             aux.apilar(i);
             System.out.print(aux.obtenerTope().toString()+" ");
         }
+        System.out.println("Metodo Tu String "+aux.toString());
+         aux1=aux.clone();
         System.out.println(" ");
         System.out.println("Prueba aux desapilar");
         System.out.println(" ");
         for (int i = 0; i < 10; i++) {
             aux.desapilar();
-            System.out.println(aux.obtenerTope().toString()+" ");
+            System.out.print(aux.obtenerTope().toString()+" ");
+        }
+        System.out.println(" ");
+        System.out.println("Voy a clonar");
+        System.out.println("Pila aux1 clonada? "+aux1.esVacia());
+        if(aux1.esVacia()){
+            System.out.println(aux1.toString());
         }
     }
 }
