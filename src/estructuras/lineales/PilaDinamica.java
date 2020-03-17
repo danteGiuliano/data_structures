@@ -15,19 +15,64 @@ public class PilaDinamica {
         this.tope=null;
     }
     //La estructura en si misma el tope apunta siempre SIEMPRE A null;  
-    public void apilar(Object aux){
+    public boolean apilar(Object aux){
         Nodo t = new Nodo(aux,this.tope);
         this.tope=t;
         // el tope va de derecha a izquierda. tope siempre esta en el final
+        return true;
     }
-    public void desapilar(){
-        Nodo aux= this.tope;
-        while(aux!=null){
-            aux.setEnlance(aux);
+    public boolean desapilar(){
+        boolean flag=false;
+        if(this.tope!=null){
+            Nodo aux =this.tope.getEnlace();
+            this.tope=aux;
+            flag=true;
         }
-        this.tope=aux;
+        return flag;
     }
     public Object obtenerTope(){
-        return this.tope.getElement();
+       Object aux=null;
+       if(this.tope!=null){
+       aux= this.tope.getElement();
+       }
+        return aux;
     }
+    public void vaciar(){
+        this.tope=null;
+    }
+    public boolean esVacia(){
+        boolean flag=true;
+        if(this.tope!=null){
+            flag=false;
+        }
+        return flag;
+    }
+    public String toString(){
+        String aux = "Pila vacia";
+        Nodo index=this.tope;
+        if(this.tope!=null){
+            aux="";
+            while(index!=null){
+                aux+=index.getElement().toString();
+                index=index.getEnlace();
+            }
+        }
+        return aux;
+    }
+    public PilaDinamica clone() {
+         return cloneAux(this.tope);   
+        }
+    private PilaDinamica cloneAux(Nodo aux) {
+        Object index;
+        PilaDinamica r = new PilaDinamica();
+        if (aux != null) {
+            cloneAux(aux.getEnlace());
+
+        }
+        r.tope = new Nodo(aux.getElement(), aux.getEnlace());
+        return r;
+    }
+
 }
+   
+

@@ -27,6 +27,6 @@ public class Nodo {
         return this.element;
     }
     public Nodo getEnlace(){
-        return this.getEnlace();
+        return this.enlace;
     }
 }
