@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package estructuras.lineales;
+package estructuras.lineales.dinamicas;
+
+import estructuras.lineales.TDA.Nodo;
 
 /**
  *
  * @author Dantesito
  */
-public class PilaDinamica {
+public class Pila {
     private Nodo tope;
-    public PilaDinamica(){
+    public Pila(){
         this.tope=null;
     }
     //La estructura en si misma el tope apunta siempre SIEMPRE A null;  
@@ -59,15 +61,13 @@ public class PilaDinamica {
         }
         return aux;
     }
-    public PilaDinamica clone() {
+    public Pila clone() {
          return cloneAux(this.tope);   
         }
-    private PilaDinamica cloneAux(Nodo aux) {
-        Object index;
-        PilaDinamica r = new PilaDinamica();
+    private Pila cloneAux(Nodo aux) {
+        Pila r = new Pila();
         if (aux != null) {
             cloneAux(aux.getEnlace());
-
         }
         r.tope = new Nodo(aux.getElement(), aux.getEnlace());
         return r;

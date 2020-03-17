@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package estructuras.lineales;
+package estructuras.lineales.testings;
+
+import estructuras.lineales.estaticas.Pila;
 
 /**
  *
@@ -15,9 +17,9 @@ public class testPilaEstaticaV1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        PilaEstatica p= new PilaEstatica();
-        PilaEstatica c= new PilaEstatica();
-        PilaEstatica e= new PilaEstatica();
+        Pila p= new Pila();
+        Pila c= new Pila();
+        Pila e= new Pila();
         System.out.println("Test con 3 pilas P C E");
         System.out.println("Clonando pilas e con P");
         e=p.clone();     

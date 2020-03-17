@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package estructuras.lineales;
+package estructuras.lineales.testings;
+
+import estructuras.lineales.dinamicas.Pila;
 
 /**
  *
@@ -12,10 +14,10 @@ package estructuras.lineales;
 public class testPilaDinamicaV1 {
 
     public static void main(String[] args) {
-        PilaDinamica aux = new PilaDinamica();
-        PilaDinamica aux1 = new PilaDinamica();
-        PilaDinamica aux2 = new PilaDinamica();
-        PilaDinamica aux3 = new PilaDinamica();
+        Pila aux = new Pila();
+        Pila aux1 = new Pila();
+        Pila aux2 = new Pila();
+        Pila aux3 = new Pila();
         
         System.out.println("Prueba de carga aux");
         for (int i = 0; i < 10; i++) {

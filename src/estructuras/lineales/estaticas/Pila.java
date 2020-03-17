@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package estructuras.lineales;
+package estructuras.lineales.estaticas;
 
 /**
  *
  * @author Dantesito
  */
-public class PilaEstatica {
+public class Pila {
 
     private Object array[];
-    private final int tamanio = 20;
+    private final int tamanio = 10;
     private int tope;
 
-    public PilaEstatica() {
+    public Pila() {
         this.array = new Object[this.tamanio];
         this.tope = -1;
 
@@ -42,15 +42,15 @@ public class PilaEstatica {
     }
 
     public Object obtenerTope() {
-        Object aux = -1;
+        Object aux = null;
         if (this.tope != -1) {
             aux = this.array[this.tope];
         }
         return aux;
     }
 
-    public PilaEstatica clone() {
-        PilaEstatica aux = new PilaEstatica();
+    public Pila clone() {
+        Pila aux = new Pila();
         aux.tope = this.tope;
         int ind = this.tope;
         while (ind > -1) {
@@ -63,13 +63,13 @@ public class PilaEstatica {
 
     public String toString() {
         String aux = "pilaVacia";
-        int ind = this.tope;
-        boolean flag = ind == -1;
+        int con=0;
+        boolean flag = this.tope == -1;
         if (!flag) {
             aux = " ";
-            while (ind > -1) {
-                aux += this.array[ind].toString();
-                ind--;
+            while (con <= this.tope) {
+                aux +=","+this.array[con].toString();
+                con++;
             }
         }
         return aux;
