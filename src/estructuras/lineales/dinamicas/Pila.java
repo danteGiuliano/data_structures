@@ -62,17 +62,16 @@ public class Pila {
         return aux;
     }
     public Pila clone() {
-         return cloneAux(this.tope);   
-        }
-    private Pila cloneAux(Nodo aux) {
-        Pila r = new Pila();
-        if (aux != null) {
-            cloneAux(aux.getEnlace());
-        }
-        r.tope = new Nodo(aux.getElement(), aux.getEnlace());
-        return r;
+        Pila clon = new Pila();
+        return cloneAux(clon, this.tope);
     }
 
+    private Pila cloneAux(Pila clon, Nodo aux) {
+        if (aux != null) {
+            clon = cloneAux(clon, aux.getEnlace());
+            Nodo t = new Nodo(aux.getElement(), clon.tope);
+            clon.tope = t;
+        }
+        return clon;
+    }
 }
-   
-
