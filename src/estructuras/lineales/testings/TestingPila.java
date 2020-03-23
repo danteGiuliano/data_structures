@@ -1,6 +1,6 @@
 package estructuras.lineales.testings;
 
-import estructuras.lineales.dinamicas.Pila;
+import estructuras.lineales.estaticas.Pila;
 
 /**
  *
