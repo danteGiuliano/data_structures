@@ -19,23 +19,33 @@ public class testColaEstatica {
         Cola n4 = new Cola();
         System.out.println("Apilar elementos en la cola ");
         for (int i = 0; i < 5; i++) {
-            System.out.println("Apilando "+i+" apilado "+n1.apilar(i));
+            System.out.println("Apilando "+i+" apilado "+n1.poner(i));
         }
         System.out.println("Probando to String");
         System.out.println(n1.toString());
         System.out.println("probando el clone");
         n2=n1.clone();
         System.out.println("Cola n2 es "+n2.toString());
-        System.out.println("Desapilo n1 "+n1.desapilar());
+        System.out.println("Desapilo n1 "+n1.sacar());
         System.out.println("El nuevo frente es "+n1.obtenerFrente().toString());
         System.out.println("Nueva cola n1 "+n1.toString());
-        System.out.println("Desapilo cola n2 "+n2.desapilar());
+        System.out.println("Desapilo cola n2 "+n2.sacar());
         System.out.println("Probando n2 "+n2.toString());
         System.out.println("Prueba apilando hasta llenar la cola ");
-        for (int i = 0; i < 15; i++) {
-            System.out.println("LLenando n2 "+n2.apilar(i));
+        for (int i = 0; i < 6; i++) {
+            System.out.println("LLenando n2 "+n2.poner(i)+" "+n2.toString());
         }
-      
+        System.out.println("Pila n2 Final "+n2.toString());
+        System.out.println("Desapilo N2 " + n2.sacar() + " " + n2.toString());
+        System.out.println("Desapilo N2 " + n2.sacar() + " " + n2.toString());
+        System.out.println("Desapilo N2 " + n2.sacar() + " " + n2.toString());
+        System.out.println("Desapilo N2 " + n2.sacar() + " " + n2.toString());
+        System.out.println("desapilo N1 " + n1.sacar() + " " + n1.toString());
+        System.out.println("Clono N3 de n2 ");
+        n3=n2.clone();
+        System.out.println("Pila clon N3 "+n3.toString());
+        System.out.println("Vaciar N3");
+        n3.vaciar();
+        System.out.println("cola N3 vacia? "+n3.toString());
     }
-    
 }
