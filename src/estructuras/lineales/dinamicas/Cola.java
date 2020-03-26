@@ -65,7 +65,7 @@ public class Cola {
         return n;
     }
 
-    public Cola cloneAux(Cola aux, Nodo ins) {
+    private Cola cloneAux(Cola aux, Nodo ins) {
         Object elem;
         if (ins.getEnlace() != null) {
             elem = ins.getElement();
@@ -76,7 +76,22 @@ public class Cola {
             elem = ins.getElement();
             Nodo n = new Nodo(elem, null);
             aux.fin = n;
+            aux.frente=n;
         }
         return aux;
+    }
+    public String toString(){
+        String cad ="Cola vacia";
+        if(this.frente!=null){
+            Nodo aux =this.frente;
+            cad="|";
+            while(aux!=null){
+            cad+=aux.getElement().toString()+",";
+            aux=aux.getEnlace();
+        } 
+            cad=cad.substring(0, cad.length()-1);
+             cad+="|";
+        }
+        return cad;
     }
 }

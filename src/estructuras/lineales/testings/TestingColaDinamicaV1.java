@@ -23,15 +23,16 @@ public class TestingColaDinamicaV1 {
         System.out.println("Apilar 3 "+n1.poner(3));
         System.out.println("Probar Clone ");
         n2=n1.clone();
-        System.out.println(n1.obtenerFrente().toString());
+        System.out.println(n1.toString());
         System.out.println("Sacar "+n1.sacar());
-        System.out.println(n1.obtenerFrente().toString());
+        System.out.println(n1.toString());
+        System.out.println("Sacar "+n1.sacar());
+        System.out.println(n1.toString());
         System.out.println("Sacar "+n1.sacar());
         System.out.println(n1.obtenerFrente());
         System.out.println("Sacar "+n1.sacar());
-        System.out.println(n1.obtenerFrente());
-        System.out.println("Sacar "+n1.sacar());
-        System.out.println("Probar n2 esta clonada? "+n2.obtenerFrente());
+        System.out.println("Probar Cola n1 "+n1.toString());
+        System.out.println("Probar Cola n2 "+n2.toString());
         
     }
 
