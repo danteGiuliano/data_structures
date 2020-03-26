@@ -48,7 +48,7 @@ public class Cola {
             this.frente = frente.getEnlace();
             flag = true;
             //preguto si el enlace es nulo por que aunque saque el nodo si fin lo 
-            //sigue apuntando no se va a borrar frente apunta a null y In apuntaa un nodo
+            //sigue apuntando no se va a borrar la cola frente apunta a null y In apuntaa un nodo
             if (this.frente == null) {
                 this.fin = null;
             }
@@ -93,5 +93,16 @@ public class Cola {
              cad+="|";
         }
         return cad;
+    }
+    public void vaciar(){
+        this.fin=null;
+        this.frente=null;
+    }
+    public boolean esVacia(){
+        boolean flag=true;
+        if(this.frente!=null){
+            flag=false;
+        }
+        return flag;
     }
 }
