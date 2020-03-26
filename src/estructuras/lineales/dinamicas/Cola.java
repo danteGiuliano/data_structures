@@ -48,7 +48,7 @@ public class Cola {
             this.frente = frente.getEnlace();
             flag = true;
             //preguto si el enlace es nulo por que aunque saque el nodo si fin lo 
-            //sigue apuntando no se va a borrar frente apunta a null y In apuntaa un nodo
+            //sigue apuntando no se va a borrar la cola frente apunta a null y In apuntaa un nodo
             if (this.frente == null) {
                 this.fin = null;
             }
@@ -65,7 +65,7 @@ public class Cola {
         return n;
     }
 
-    public Cola cloneAux(Cola aux, Nodo ins) {
+    private Cola cloneAux(Cola aux, Nodo ins) {
         Object elem;
         if (ins.getEnlace() != null) {
             elem = ins.getElement();
@@ -76,7 +76,33 @@ public class Cola {
             elem = ins.getElement();
             Nodo n = new Nodo(elem, null);
             aux.fin = n;
+            aux.frente=n;
         }
         return aux;
+    }
+    public String toString(){
+        String cad ="Cola vacia";
+        if(this.frente!=null){
+            Nodo aux =this.frente;
+            cad="|";
+            while(aux!=null){
+            cad+=aux.getElement().toString()+",";
+            aux=aux.getEnlace();
+        } 
+            cad=cad.substring(0, cad.length()-1);
+             cad+="|";
+        }
+        return cad;
+    }
+    public void vaciar(){
+        this.fin=null;
+        this.frente=null;
+    }
+    public boolean esVacia(){
+        boolean flag=true;
+        if(this.frente!=null){
+            flag=false;
+        }
+        return flag;
     }
 }
