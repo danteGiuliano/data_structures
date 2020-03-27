@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package estructuras.lineales.TDA;
+package estructuras.lineales.dinamicas;
 
 /**
  *
  * @author Dantesito
  */
-public class Nodo {
+class Nodo {
     private Object element;
     private Nodo enlace;
     public Nodo(Object aux,Nodo sig){

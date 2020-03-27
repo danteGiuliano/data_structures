@@ -5,8 +5,6 @@
  */
 package estructuras.lineales.dinamicas;
 
-import estructuras.lineales.TDA.Nodo;
-
 /**
  *
  * @author Dantesito
@@ -47,8 +45,6 @@ public class Cola {
         if (this.frente != null) {
             this.frente = frente.getEnlace();
             flag = true;
-            //preguto si el enlace es nulo por que aunque saque el nodo si fin lo 
-            //sigue apuntando no se va a borrar la cola frente apunta a null y In apuntaa un nodo
             if (this.frente == null) {
                 this.fin = null;
             }
