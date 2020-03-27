@@ -5,8 +5,6 @@
  */
 package estructuras.lineales.dinamicas;
 
-import estructuras.lineales.TDA.Nodo;
-
 /**
  *
  * @author Dantesito
