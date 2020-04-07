@@ -21,18 +21,21 @@ public class Lista {
 
     public boolean insertar(Object elemen, int ind) {
         boolean flag = true;
-        if (ind < 1 || ind <= this.longitud) {
+        int r = 1;
+        if (ind < 1 || ind > this.longitud + 1) {
             flag = false;
         } else {
-            Nodo add = new Nodo(elemen, null);
             if (ind == 1) {
-                this.cabecera = add;
+                this.cabecera = new Nodo(elemen, this.cabecera);
             } else {
                 Nodo aux = this.cabecera;
-                while (aux.getEnlace() != null) {
+                int i = 1;
+                while (i < ind - 1) {
                     aux = aux.getEnlace();
+                    i++;
                 }
-                aux.setEnlance(add);
+                Nodo nuevo = new Nodo(elemen, aux.getEnlace());
+                aux.setEnlance(nuevo);
             }
             this.longitud++;
         }
@@ -50,12 +53,17 @@ public class Lista {
             int aux = 1;//suponiendo la lista tiene al menos un elemento
             Nodo r = this.cabecera;
             Nodo n = r.getEnlace();
-            while (aux != indice - 1) {
-                r = r.getEnlace();
+            if (indice == 1) {
+                this.cabecera = r.getEnlace();
+            } else {
+                while (aux != indice - 1) {
+                    r = r.getEnlace();
+                    n = n.getEnlace();
+                }
                 n = n.getEnlace();
+                r.setEnlance(n);
             }
-            n=n.getEnlace();
-            r.setEnlance(n);
+
         } else {
             flag = false;
         }
@@ -88,7 +96,7 @@ public class Lista {
     public int localizar(Object elem) {
         int r = -1;
         int flag = 1;//Supongo que la lista tiene 1 elemento. 
-         Nodo aux = this.cabecera;
+        Nodo aux = this.cabecera;
         while (flag <= this.longitud && r == -1) {
             if (aux.getElement().equals(elem)) {
                 r = flag;
@@ -99,32 +107,77 @@ public class Lista {
         }
         return r;
     }
-    public String toString(){
-        String cad="Pila Vacia";
-        Nodo aux=this.cabecera;
-        if(this.longitud>0){
-            cad="[";
-            while(aux!=null){
-                cad+=aux.getElement().toString()+",";
-                aux=aux.getEnlace();
+
+    public String toString() {
+        String cad = "Pila Vacia";
+        Nodo aux = this.cabecera;
+        int r = 1, i = this.longitud;
+        if (this.longitud > 0) {
+            cad = "[";
+            while (r <= i) {
+                cad += aux.getElement().toString() + ",";
+                aux = aux.getEnlace();
+                r++;
             }
-            cad=cad.substring(0,cad.length()-1);
-            cad+="]";
+            cad = cad.substring(0, cad.length() - 1);
+            cad += "]";
         }
         return cad;
     }
-    public Lista clone(){
+
+    public Lista clone() {
         Lista aux = new Lista();
-        aux=cloneAux(aux,this.cabecera);
-        aux.longitud=this.longitud;
+        aux = cloneAux(aux, this.cabecera);
+        aux.longitud = this.longitud;
         return aux;
     }
-    private Lista cloneAux(Lista aux,Nodo ins){        
-        if(ins!=null){
-           aux=cloneAux(aux,ins.getEnlace());
-           Nodo r =new Nodo(ins.getElement(),aux.cabecera);
-           aux.cabecera=r;
+
+    private Lista cloneAux(Lista aux, Nodo ins) {
+        if (ins != null) {
+            aux = cloneAux(aux, ins.getEnlace());
+            Nodo r = new Nodo(ins.getElement(), aux.cabecera);
+            aux.cabecera = r;
         }
         return aux;
+    }
+
+    public Lista invertirLista() {
+        Lista ls = new Lista();
+        Nodo n = invertirAux(this.cabecera, null, ls);
+        ls.longitud = this.longitud;
+        return ls;
+    }
+   
+
+    private Nodo invertirAux(Nodo aux, Nodo apilado, Lista ls) {
+        if (aux.getEnlace() != null) {
+            apilado = invertirAux(aux.getEnlace(), apilado, ls);
+            Nodo ap = new Nodo(aux.getElement(), null);
+            apilado.setEnlance(ap);
+            apilado = ap;
+        } else {
+            apilado = new Nodo(aux.getElement(), null);
+            ls.cabecera = apilado;
+        }
+        return apilado;
+    }
+ public Lista invertirLista2(){
+        Lista ls = new Lista();
+        Nodo aux = invertirAux2(this.cabecera,ls);
+        ls.longitud=this.longitud;
+        return ls;
+    }
+    private Nodo invertirAux2(Nodo aux,Lista ls) {
+        Nodo nuevo=new Nodo(aux.getElement(),null);
+       if(aux.getEnlace()!=null){
+           aux=invertirAux2(aux.getEnlace(),ls);
+           aux.setEnlance(nuevo);
+           aux=nuevo;
+       }
+       else{
+           aux=nuevo;
+           ls.cabecera=nuevo;
+       }
+       return aux;
     }
 }
