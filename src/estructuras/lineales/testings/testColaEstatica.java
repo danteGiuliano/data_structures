@@ -17,7 +17,7 @@ public class testColaEstatica {
         Cola n2 = new Cola();
         Cola n3 = new Cola();
         Cola n4 = new Cola();
-        System.out.println("Apilar elementos en la cola ");
+        System.out.println("poner elementos en la cola ");
         for (int i = 0; i < 5; i++) {
             System.out.println("Apilando "+i+" apilado "+n1.poner(i));
         }
@@ -26,7 +26,7 @@ public class testColaEstatica {
         System.out.println("probando el clone");
         n2=n1.clone();
         System.out.println("Cola n2 es "+n2.toString());
-        System.out.println("Desapilo n1 "+n1.sacar());
+        System.out.println("saco n1 "+n1.sacar());
         System.out.println("El nuevo frente es "+n1.obtenerFrente().toString());
         System.out.println("Nueva cola n1 "+n1.toString());
         System.out.println("Desapilo cola n2 "+n2.sacar());
@@ -47,5 +47,6 @@ public class testColaEstatica {
         System.out.println("Vaciar N3");
         n3.vaciar();
         System.out.println("cola N3 vacia? "+n3.toString());
+        System.out.println("Tope de n3 "+n3.obtenerFrente());
     }
 }
