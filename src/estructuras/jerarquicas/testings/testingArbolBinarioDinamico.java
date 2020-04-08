@@ -31,6 +31,8 @@ public class testingArbolBinarioDinamico {
         n2=n1.clone();
         System.out.println("Mostrar n2 ");
         System.out.println(n2.toString());
+        System.out.println("Altura del nodo 4 "+n1.nivel(4));
+        System.out.println("Buscar el padre de 5 "+n1.padre(5));
     }
 
 }

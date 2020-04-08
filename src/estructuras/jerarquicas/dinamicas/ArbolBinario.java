@@ -118,4 +118,45 @@ public class ArbolBinario {
         return hijo;
     }
 
+    public int nivel(Object aux) {
+        int r = -1;
+        if (this.raiz != null) {
+            r = nivelAux(this.raiz, aux) - r;
+        }
+        return r;
+    }
+
+    private int nivelAux(NodoArbol aux, Object nNodo) {
+        int altD = 0;
+        int altI = 0;
+        if (aux != null) {
+            if (!aux.elem.equals(nNodo)) {
+                altD = nivelAux(aux.derecho, nNodo) + 1;
+                altI = nivelAux(aux.izquierdo, nNodo) + 1;
+                if (altI >= altD) {
+                    altD = altI;
+                }
+            }
+        }
+        return altD;
+    }
+
+    public Object padre(Object hijo) {
+        return busPadre(this.raiz, hijo, this.raiz.elem);
+    }
+
+    private Object busPadre(NodoArbol aux, Object hijo, Object padre) {
+        Object r = null;
+        if (aux != null) {
+            if (aux.elem.equals(hijo)) {
+                r = padre;
+            } else {
+                r = busPadre(aux.izquierdo, hijo, aux.elem);
+                if (r == null) {
+                    r = busPadre(aux.derecho, hijo, aux.elem);
+                }
+            }
+        }
+        return r;
+    }
 }
