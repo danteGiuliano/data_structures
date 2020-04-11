@@ -26,6 +26,7 @@ public class testingArbolBinarioDinamico {
          System.out.println(n1.insertar(10, 5, 'I'));
         System.out.println(n1.insertar(6, 7, 'D'));
         System.out.println(n1.toString());
+        System.out.println(n1.toString());
         System.out.println("La altura del arbol es " + n1.alturaArbol());
         System.out.println("Clonar arbol");
         n2=n1.clone();
@@ -33,6 +34,8 @@ public class testingArbolBinarioDinamico {
         System.out.println(n2.toString());
         System.out.println("Altura del nodo 4 "+n1.nivel(4));
         System.out.println("Buscar el padre de 5 "+n1.padre(5));
+        System.out.println("Testin toString 2");
+        System.out.println(n1.toString());
     }
 
 }

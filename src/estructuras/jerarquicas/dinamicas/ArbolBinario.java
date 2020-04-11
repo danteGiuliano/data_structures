@@ -5,6 +5,9 @@
  */
 package estructuras.jerarquicas.dinamicas;
 
+import estructuras.lineales.dinamicas.Lista;
+import estructuras.lineales.dinamicas.Cola;
+
 /**
  *
  * @author Dantesito
@@ -113,7 +116,7 @@ public class ArbolBinario {
     private NodoArbol clonarAux(NodoArbol aux) {
         NodoArbol hijo = null;
         if (aux != null) {
-            hijo = new NodoArbol(aux.elem, clonarAux(aux.derecho), clonarAux(aux.izquierdo));
+            hijo = new NodoArbol(aux.getElemet(), clonarAux(aux.getDerecho()), clonarAux(aux.getIzquierdo()));
         }
         return hijo;
     }
@@ -130,9 +133,9 @@ public class ArbolBinario {
         int altD = 0;
         int altI = 0;
         if (aux != null) {
-            if (!aux.elem.equals(nNodo)) {
-                altD = nivelAux(aux.derecho, nNodo) + 1;
-                altI = nivelAux(aux.izquierdo, nNodo) + 1;
+            if (!aux.getElemet().equals(nNodo)) {
+                altD = nivelAux(aux.getDerecho(), nNodo) + 1;
+                altI = nivelAux(aux.getIzquierdo(), nNodo) + 1;
                 if (altI >= altD) {
                     altD = altI;
                 }
@@ -142,21 +145,45 @@ public class ArbolBinario {
     }
 
     public Object padre(Object hijo) {
-        return busPadre(this.raiz, hijo, this.raiz.elem);
+        return busPadre(this.raiz, hijo, this.raiz.getElemet());
     }
 
     private Object busPadre(NodoArbol aux, Object hijo, Object padre) {
         Object r = null;
         if (aux != null) {
-            if (aux.elem.equals(hijo)) {
+            if (aux.getElemet().equals(hijo)) {
                 r = padre;
             } else {
-                r = busPadre(aux.izquierdo, hijo, aux.elem);
+                r = busPadre(aux.getIzquierdo(), hijo, aux.getElemet());
                 if (r == null) {
-                    r = busPadre(aux.derecho, hijo, aux.elem);
+                    r = busPadre(aux.getDerecho(), hijo, aux.getElemet());
                 }
             }
         }
         return r;
     }
+
+    public Lista listarNiveles() {
+        Lista lista = new Lista();
+        Cola aux = new <NodoArbol>Cola();
+        NodoArbol raiz = this.raiz;
+        int index = 1;
+        if (raiz != null) {
+            aux.poner(raiz);
+            while (aux.esVacia()) {
+                NodoArbol actual = (NodoArbol) aux.obtenerFrente();
+                lista.insertar(actual, index);
+                aux.sacar();
+                index++;
+                if (actual.getDerecho() != null) {
+                    aux.poner(actual.getDerecho());
+                }
+                if (actual.getIzquierdo() != null) {
+                    aux.poner(actual.getIzquierdo());
+                }
+            }
+        }
+        return lista;
+    }
+   
 }
