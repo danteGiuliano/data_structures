@@ -10,9 +10,9 @@ package estructuras.jerarquicas.dinamicas;
  * @author Dantesito
  */
  class NodoArbol {
-    Object elem ;
-    NodoArbol izquierdo;
-    NodoArbol derecho;
+ private   Object elem ;
+ private    NodoArbol izquierdo;
+ private  NodoArbol derecho;
 
 public NodoArbol(Object unElemento,NodoArbol der,NodoArbol izq){
     this.elem=unElemento;
