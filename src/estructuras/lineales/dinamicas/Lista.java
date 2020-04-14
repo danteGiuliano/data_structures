@@ -100,18 +100,17 @@ public class Lista {
     }
 
     public int localizar(Object elem) {
-        int r = -1;
-        int flag = 1;//Supongo que la lista tiene 1 elemento. 
+        int pos = 1;//Supongo que la lista tiene 1 elemento. 
         Nodo aux = this.cabecera;
-        while (flag <= this.longitud && r == -1) {
+        while (aux!=null) {
             if (aux.getElement().equals(elem)) {
-                r = flag;
+                aux = null;
             } else {
                 aux = aux.getEnlace();
-                flag++;
+                pos++;
             }
         }
-        return r;
+        return pos;
     }
 
     public String toString() {
