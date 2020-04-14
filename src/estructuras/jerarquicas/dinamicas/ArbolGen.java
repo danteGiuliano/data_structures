@@ -31,13 +31,13 @@ public class ArbolGen {
                 if (bus.getHijoIzquierdo() == null) {
                     bus.setHijoIzquierdo(n);
                 } else {
-                    //Con bus = bus.getHijoIzq bajo a la hoja.
-                    bus = bus.getHijoIzquierdo();
-                    //Si ya tiene un hijo debo enlazarlo con el hijo izquierdo.
-                    while (bus.getHermanoDerecho() != null) {
-                        bus = bus.getHermanoDerecho();
-                    }
-                    bus.setHermanoDerecho(n);
+                    //Con bus = bus.getHijoIzq bajo a la hoja y el nuevo nodo.
+                    //sera el nuevo hijo izquierdo no importa la posicion de los
+                    //hermanos
+                    NodoGen aux = bus.getHijoIzquierdo();
+                    bus.setHijoIzquierdo(n);
+                    n.setHermanoDerecho(aux);
+
                 }
             } else {
                 flag = false;
@@ -82,25 +82,22 @@ public class ArbolGen {
 
     public Lista ancestros(Object hijo) {
         Lista ls = new Lista();
-        if (this.raiz != null) {
-            ls = recorrido(hijo, this.raiz, ls);
-        }
+        ls = recorrido(hijo, this.raiz, ls);
         return ls;
     }
 
     private Lista recorrido(Object hijo, NodoGen raiz, Lista ls) {
         if (raiz != null) {
-            if (raiz.equals(hijo)) {
-                ls.insertar(hijo, 0);
+            if (raiz.getElement().equals(hijo)) {
+                ls.insertar(hijo, 1);
+            } else {
+                ls = recorrido(hijo, raiz.getHermanoDerecho(), ls);
+                ls = recorrido(hijo, raiz.getHijoIzquierdo(), ls);
+                if (!ls.esVacia()) {
+                    ls.insertar(raiz.getElement(), 1);
+                }
             }
-            ls = recorrido(hijo, raiz.getHermanoDerecho(), ls);
-            if (!ls.esVacia()) {
-                ls.insertar(raiz.getElement(), 0);
-            }
-            ls = recorrido(hijo, raiz.getHijoIzquierdo(), ls);
-            if (!ls.esVacia()) {
-                ls.insertar(raiz.getElement(), 0);
-            }
+
         }
         return ls;
     }
@@ -150,6 +147,7 @@ public class ArbolGen {
                 if (r == 0) {
                     r = nivelAux(raiz.getHijoIzquierdo(), n) + 1;
                 }
+
             }
         }
         return r;
@@ -189,7 +187,7 @@ public class ArbolGen {
     private NodoGen cloneAux(NodoGen aux) {
         NodoGen hijo = null;
         if (aux != null) {
-            hijo = new NodoGen(aux.getElement(), cloneAux(aux.getHermanoDerecho()), cloneAux(aux.getHijoIzquierdo()));
+            hijo = new NodoGen(aux.getElement(), cloneAux(aux.getHijoIzquierdo()), cloneAux(aux.getHermanoDerecho()));
         }
         return hijo;
     }
@@ -205,13 +203,13 @@ public class ArbolGen {
     private String toStringAux(NodoGen n) {
         String s = "";
         if (n != null) {
-            s += n.getElement().toString()+"->";
+            s += n.getElement().toString() + "->";
             NodoGen hijo = n.getHijoIzquierdo();
             while (hijo != null) {
-                s +=hijo.getElement().toString()+",";
+                s += hijo.getElement().toString() + ",";
                 hijo = hijo.getHermanoDerecho();
             }
-            hijo =hijo.getHijoIzquierdo();
+            hijo=n.getHijoIzquierdo();
             while (hijo != null) {
                 s += "\n" + toStringAux(hijo);
                 hijo = hijo.getHermanoDerecho();
