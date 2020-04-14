@@ -25,6 +25,9 @@ public class Lista {
         if (ind < 1 || ind > this.longitud + 1) {
             flag = false;
         } else {
+            if (this.cabecera == null) {
+                this.cabecera = new Nodo(elemen, null);
+            }
             if (ind == 1) {
                 this.cabecera = new Nodo(elemen, this.cabecera);
             } else {
@@ -50,19 +53,22 @@ public class Lista {
     public boolean eliminar(int indice) {
         boolean flag = true;
         if (indice > 0 && indice <= this.longitud) {
-            int aux = 1;//suponiendo la lista tiene al menos un elemento
+            int aux = 2;//suponiendo la lista tiene al menos un elemento
             Nodo r = this.cabecera;
-            Nodo n = r.getEnlace();
             if (indice == 1) {
                 this.cabecera = r.getEnlace();
             } else {
-                while (aux != indice - 1) {
+                while (aux <= indice - 1) {
                     r = r.getEnlace();
-                    n = n.getEnlace();
+                    aux++;
                 }
-                n = n.getEnlace();
-                r.setEnlance(n);
+                if (aux + 1 == indice) {
+                    r.setEnlance(null);
+                } else {
+                    r.setEnlance((r.getEnlace()).getEnlace());
+                }
             }
+            this.longitud--;
 
         } else {
             flag = false;
@@ -109,12 +115,12 @@ public class Lista {
     }
 
     public String toString() {
-        String cad = "Pila Vacia";
+        String cad = "Lista vacia";
         Nodo aux = this.cabecera;
         int r = 1, i = this.longitud;
         if (this.longitud > 0) {
             cad = "[";
-            while (r <= i) {
+            while (r <= i && aux != null) {
                 cad += aux.getElement().toString() + ",";
                 aux = aux.getEnlace();
                 r++;
@@ -147,7 +153,6 @@ public class Lista {
         ls.longitud = this.longitud;
         return ls;
     }
-   
 
     private Nodo invertirAux(Nodo aux, Nodo apilado, Lista ls) {
         if (aux.getEnlace() != null) {
@@ -161,23 +166,24 @@ public class Lista {
         }
         return apilado;
     }
- public Lista invertirLista2(){
+
+    public Lista invertirLista2() {
         Lista ls = new Lista();
-        Nodo aux = invertirAux2(this.cabecera,ls);
-        ls.longitud=this.longitud;
+        Nodo aux = invertirAux2(this.cabecera, ls);
+        ls.longitud = this.longitud;
         return ls;
     }
-    private Nodo invertirAux2(Nodo aux,Lista ls) {
-        Nodo nuevo=new Nodo(aux.getElement(),null);
-       if(aux.getEnlace()!=null){
-           aux=invertirAux2(aux.getEnlace(),ls);
-           aux.setEnlance(nuevo);
-           aux=nuevo;
-       }
-       else{
-           aux=nuevo;
-           ls.cabecera=nuevo;
-       }
-       return aux;
+
+    private Nodo invertirAux2(Nodo aux, Lista ls) {
+        Nodo nuevo = new Nodo(aux.getElement(), null);
+        if (aux.getEnlace() != null) {
+            aux = invertirAux2(aux.getEnlace(), ls);
+            aux.setEnlance(nuevo);
+            aux = nuevo;
+        } else {
+            aux = nuevo;
+            ls.cabecera = nuevo;
+        }
+        return aux;
     }
 }
