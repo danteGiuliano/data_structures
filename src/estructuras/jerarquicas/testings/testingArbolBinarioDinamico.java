@@ -5,7 +5,7 @@
  */
 package estructuras.jerarquicas.testings;
 
-import estructuras.jerarquicas.dinamicas.ArbolBinario;
+import estructuras.jerarquicas.dinamicas.ArbolBin;
 
 /**
  *
@@ -14,8 +14,8 @@ import estructuras.jerarquicas.dinamicas.ArbolBinario;
 public class testingArbolBinarioDinamico {
 
     public static void main(String[] args) {
-        ArbolBinario n1 = new ArbolBinario();
-        ArbolBinario n2 = new ArbolBinario();
+        ArbolBin n1 = new ArbolBin();
+        ArbolBin n2 = new ArbolBin();
         System.out.println(n1.insertar(1, null, ' '));
         System.out.println(n1.insertar(2, 1, 'D'));
         System.out.println(n1.insertar(3, 2, 'I'));
@@ -27,7 +27,8 @@ public class testingArbolBinarioDinamico {
         System.out.println(n1.insertar(6, 7, 'D'));
         System.out.println(n1.toString());
         System.out.println(n1.toString());
-        System.out.println("La altura del arbol es " + n1.alturaArbol());
+        System.out.println("Altura de 7 " +n1.nivel(7));
+        System.out.println("La altura del arbol es " + n1.altura());
         System.out.println("Clonar arbol");
         n2=n1.clone();
         System.out.println("Mostrar n2 ");
@@ -35,7 +36,7 @@ public class testingArbolBinarioDinamico {
         System.out.println("Altura del nodo 4 "+n1.nivel(4));
         System.out.println("Buscar el padre de 5 "+n1.padre(5));
         System.out.println("Testin toString 2");
-        System.out.println(n1.toString());
+    
     }
 
 }

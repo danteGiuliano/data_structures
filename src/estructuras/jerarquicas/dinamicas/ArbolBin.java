@@ -12,11 +12,11 @@ import estructuras.lineales.dinamicas.Cola;
  *
  * @author Dantesito
  */
-public class ArbolBinario {
+public class ArbolBin {
 
     private NodoArbol raiz;
 
-    public ArbolBinario() {
+    public ArbolBin() {
         raiz = null;
     }
 
@@ -31,6 +31,8 @@ public class ArbolBinario {
                     aux.setDerecho(new NodoArbol(elem));
                 } else if (aux.getIzquierdo() == null && lugar == 'I') {
                     aux.setIzquierdo(new NodoArbol(elem));
+                } else {
+                    flag = false;
                 }
             } else {
                 flag = false;
@@ -39,7 +41,7 @@ public class ArbolBinario {
         return flag;
     }
 
-    NodoArbol obtenerPadre(NodoArbol aux, Object elem) {
+    private NodoArbol obtenerPadre(NodoArbol aux, Object elem) {
         NodoArbol resultado = null;
         if (aux != null) {
             if (aux.getElemet().equals(elem)) {
@@ -54,9 +56,8 @@ public class ArbolBinario {
         return resultado;
     }
 
-    public int alturaArbol() {
-        NodoArbol aux = this.raiz;
-        return recorrido(aux) - 1;
+    public int altura() {
+        return recorrido(this.raiz) - 1;
     }
 
     private int recorrido(NodoArbol aux) {
@@ -82,7 +83,6 @@ public class ArbolBinario {
         return cadena;
     }
 
-    //Metodo auxiliar que crea un String con cada nodo del arbol.
     private String imprimir(NodoArbol nodo) {
         String cadena = "";
         if (nodo != null) {
@@ -107,8 +107,8 @@ public class ArbolBinario {
         return cadena;
     }
 
-    public ArbolBinario clone() {
-        ArbolBinario nuevo = new ArbolBinario();
+    public ArbolBin clone() {
+        ArbolBin nuevo = new ArbolBin();
         nuevo.raiz = clonarAux(this.raiz);
         return nuevo;
     }
@@ -124,28 +124,34 @@ public class ArbolBinario {
     public int nivel(Object aux) {
         int r = -1;
         if (this.raiz != null) {
-            r = nivelAux(this.raiz, aux) - r;
+            r = nivelAux(this.raiz, aux, 0);
         }
         return r;
     }
 
-    private int nivelAux(NodoArbol aux, Object nNodo) {
-        int altD = 0;
-        int altI = 0;
+    private int nivelAux(NodoArbol aux, Object nNodo, int altura) {
+        int resultado = -1;
         if (aux != null) {
-            if (!aux.getElemet().equals(nNodo)) {
-                altD = nivelAux(aux.getDerecho(), nNodo) + 1;
-                altI = nivelAux(aux.getIzquierdo(), nNodo) + 1;
-                if (altI >= altD) {
-                    altD = altI;
+            if (aux.getElemet().equals(nNodo)) {
+                resultado = altura;
+            } else {
+                resultado = nivelAux(aux.getIzquierdo(), nNodo, altura + 1);
+                if (resultado == -1) {
+                    resultado = nivelAux(aux.getDerecho(), nNodo, altura + 1);
                 }
             }
         }
-        return altD;
+        return resultado;
     }
 
     public Object padre(Object hijo) {
-        return busPadre(this.raiz, hijo, this.raiz.getElemet());
+        Object aux = null;
+        if (this.raiz != null) {
+            if (!raiz.getElemet().equals(hijo)) {
+                aux = busPadre(this.raiz, hijo, this.raiz.getElemet());
+            }
+        }
+        return aux;
     }
 
     private Object busPadre(NodoArbol aux, Object hijo, Object padre) {
@@ -185,5 +191,51 @@ public class ArbolBinario {
         }
         return lista;
     }
-   
+
+    public boolean esVacio() {
+        return this.raiz == null;
+    }
+
+    public Lista listarInorden() {
+        Lista lista = new Lista();
+        inOrdenAux(this.raiz, lista);
+        return lista;
+    }
+
+    private void inOrdenAux(NodoArbol nodo, Lista lista) {
+        if (nodo != null) {
+            inOrdenAux(nodo.getDerecho(), lista);
+            lista.insertar(nodo.getElemet(), 1);
+            inOrdenAux(nodo.getIzquierdo(), lista);
+        }
+    }
+
+    public Lista listarPosorden() {
+        Lista lista = new Lista();
+        posOrdenAux(this.raiz, lista);
+        return lista;
+    }
+
+    private void posOrdenAux(NodoArbol nodo, Lista lista) {
+        if (nodo != null) {
+            lista.insertar(nodo.getElemet(), 1);
+            posOrdenAux(nodo.getDerecho(), lista);
+            posOrdenAux(nodo.getIzquierdo(), lista);
+        }
+    }
+
+    public Lista listarPreorden() {
+        Lista lista = new Lista();
+        preOrdenAux(this.raiz, lista, 1);
+        return lista;
+    }
+
+    private void preOrdenAux(NodoArbol nodo, Lista lista, int pos) {
+        if (nodo != null) {
+            lista.insertar(nodo.getElemet(), pos);
+            pos++;
+            preOrdenAux(nodo.getDerecho(), lista, pos);
+            preOrdenAux(nodo.getIzquierdo(), lista, pos);
+        }
+    }
 }

@@ -37,7 +37,6 @@ public class ArbolGen {
                     NodoGen aux = bus.getHijoIzquierdo();
                     bus.setHijoIzquierdo(n);
                     n.setHermanoDerecho(aux);
-
                 }
             } else {
                 flag = false;
@@ -105,7 +104,7 @@ public class ArbolGen {
     public boolean esVacio() {
         return this.raiz == null;
     }
-
+//Arreglar este metodo.
     public int altura(Object n) {
         int r = -1;
         if (this.raiz != null) {
@@ -128,31 +127,26 @@ public class ArbolGen {
         }
         return r;
     }
-
+//arreglar este metodo
     public int nivel(Object n) {
-        int r = -1;
-        if (this.raiz != null) {
-            r = nivelAux(this.raiz, n);
-        }
-        return r;
+        return nivelAux(this.raiz, n);
     }
 
     private int nivelAux(NodoGen raiz, Object n) {
-        int r = 0;
+        int r = -1;
         if (raiz != null) {
             if (raiz.getElement().equals(n)) {
                 r = 1;
             } else {
                 r = nivelAux(raiz.getHermanoDerecho(), n);
-                if (r == 0) {
+                if (r == -1) {
                     r = nivelAux(raiz.getHijoIzquierdo(), n) + 1;
                 }
-
             }
         }
         return r;
     }
-
+//Padre hay que modificar
     public Object padre(Object hijo) {
         Object r = null;
         if (this.raiz != null) {
@@ -164,10 +158,10 @@ public class ArbolGen {
     private Object padreAux(NodoGen aux, Object hijo, Object padre) {
         Object r = null;
         if (aux != null) {
-            if (aux.getHijoIzquierdo().getElement().equals(hijo)) {
+            if (aux.getElement().equals(hijo)) {
                 r = padre;
             } else {
-                r = padreAux(aux.getHermanoDerecho(), hijo, aux.getElement());
+                r = padreAux(aux.getHermanoDerecho(), hijo, padre);
                 if (r == null) {
                     r = padreAux(aux.getHijoIzquierdo(), hijo, aux.getElement());
                 }
@@ -209,12 +203,40 @@ public class ArbolGen {
                 s += hijo.getElement().toString() + ",";
                 hijo = hijo.getHermanoDerecho();
             }
-            hijo=n.getHijoIzquierdo();
+            hijo = n.getHijoIzquierdo();
             while (hijo != null) {
                 s += "\n" + toStringAux(hijo);
                 hijo = hijo.getHermanoDerecho();
             }
         }
         return s;
+    }
+
+    
+    
+    
+    
+    
+  
+    
+    //Ejercicios auxiliares ---------------------------------------------------
+    public Lista listaQueJustificaLaAltura() {
+        Lista n = new Lista();
+        Lista b = new Lista();
+        n = caminoAux(this.raiz, n, b);
+        return n;
+    }
+
+    private Lista caminoAux(NodoGen aux, Lista actual, Lista larga) {
+        if (aux != null) {
+            actual.insertar(aux.getElement(), 1);
+            larga.insertar(aux.getElement(), 1);
+            if (actual.longitud() <= larga.longitud()) {
+                larga = actual;
+            }
+            larga = caminoAux(aux.getHijoIzquierdo(), actual, larga);
+            larga = caminoAux(aux.getHermanoDerecho(), actual, larga);
+        }
+        return larga;
     }
 }
