@@ -64,8 +64,8 @@ public class ArbolBin {
         int altD = 0;
         int altIzq = 0;
         if (aux != null) {
-            altD = +recorrido(aux.getDerecho()) + 1;
-            altIzq = altIzq + recorrido(aux.getIzquierdo()) + 1;
+            altD =recorrido(aux.getDerecho()) + 1;
+            altIzq = recorrido(aux.getIzquierdo()) + 1;
             if (altIzq >= altD) {
                 altD = altIzq;
             }

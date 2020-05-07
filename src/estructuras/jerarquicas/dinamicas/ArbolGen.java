@@ -214,10 +214,7 @@ public class ArbolGen {
 
     
     
-    
-    
-    
-  
+
     
     //Ejercicios auxiliares ---------------------------------------------------
     public Lista listaQueJustificaLaAltura() {
