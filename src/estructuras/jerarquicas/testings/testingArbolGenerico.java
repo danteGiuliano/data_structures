@@ -26,13 +26,13 @@ public class testingArbolGenerico {
         n.insertar(8, 4);
         n.insertar(10, 8);
         System.out.println(n.toString());
-        //System.out.println("Buscar nivel de 3 "+n.nivel(3));
+        System.out.println("Buscar nivel de 3 "+n.nivel(7));
         System.out.println("Clonar ");
         n2=n.clone();
         System.out.println("cual es elñ padre de 7 "+n2.padre(7));
         System.out.println(n2.toString());
         System.out.println("El elemento 3 pertenece "+n.pertenece(10));
-        a=n.ancestros(4);
+        a=n.ancestros(10);
         System.out.println(a.toString());
         a=n.listaQueJustificaLaAltura();
         System.out.println(a.toString());
