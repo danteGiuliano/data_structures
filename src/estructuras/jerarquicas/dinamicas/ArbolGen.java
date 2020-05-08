@@ -81,53 +81,51 @@ public class ArbolGen {
 
     public Lista ancestros(Object hijo) {
         Lista ls = new Lista();
-        ls = recorrido(hijo, this.raiz, ls);
+        if (!hijo.equals(this.raiz.getElement())) {
+            recorrido(hijo, this.raiz, ls);
+        }
         return ls;
     }
 
-    private Lista recorrido(Object hijo, NodoGen raiz, Lista ls) {
+    private boolean recorrido(Object hijo, NodoGen raiz, Lista ls) {
+        boolean flag = false;
         if (raiz != null) {
             if (raiz.getElement().equals(hijo)) {
-                ls.insertar(hijo, 1);
+                flag = true;
             } else {
-                ls = recorrido(hijo, raiz.getHermanoDerecho(), ls);
-                ls = recorrido(hijo, raiz.getHijoIzquierdo(), ls);
-                if (!ls.esVacia()) {
-                    ls.insertar(raiz.getElement(), 1);
+                flag = recorrido(hijo, raiz.getHijoIzquierdo(), ls);
+                if (flag) {
+                    ls.insertar(raiz.getElement(), ls.longitud() + 1);
+                } else {
+                    flag = recorrido(hijo, raiz.getHermanoDerecho(), ls);
                 }
             }
-
         }
-        return ls;
+        return flag;
     }
 
     public boolean esVacio() {
         return this.raiz == null;
     }
 //Arreglar este metodo.
-    public int altura(Object n) {
-        int r = -1;
-        if (this.raiz != null) {
-            r = alturaAux(this.raiz, n) - r;
-        }
-        return r;
+
+    public int altura() {
+        return alturaAux(this.raiz, -1);
     }
 
-    private int alturaAux(NodoGen raiz, Object aux) {
-        int r = 0;
+    private int alturaAux(NodoGen raiz, int alt) {
         if (raiz != null) {
-            if (raiz.getElement().equals(aux)) {
-                r = 1;
-            } else {
-                r = alturaAux(raiz.getHermanoDerecho(), aux) + r;
-                if (r == 0) {
-                    r = alturaAux(raiz.getHijoIzquierdo(), aux) + r;
-                }
+            while (raiz.getHermanoDerecho()!= null) {
+                raiz = raiz.getHermanoDerecho();
+                if (raiz.getHijoIzquierdo() != null) {
+                    alt = alturaAux(raiz.getHijoIzquierdo(), alt + 1);
+                } 
             }
+            alt = alturaAux(raiz.getHijoIzquierdo(), alt + 1);
         }
-        return r;
+        return alt;
     }
-//arreglar este metodo
+
     public int nivel(Object n) {
         return nivelAux(this.raiz, n);
     }
@@ -136,7 +134,7 @@ public class ArbolGen {
         int r = -1;
         if (raiz != null) {
             if (raiz.getElement().equals(n)) {
-                r = 1;
+                r = 0;
             } else {
                 r = nivelAux(raiz.getHermanoDerecho(), n);
                 if (r == -1) {
@@ -146,10 +144,10 @@ public class ArbolGen {
         }
         return r;
     }
-//Padre hay que modificar
+
     public Object padre(Object hijo) {
         Object r = null;
-        if (this.raiz != null) {
+        if (this.raiz != null && !this.raiz.getElement().equals(hijo)) {
             r = padreAux(this.raiz, hijo, this.raiz.getElement());
         }
         return r;
@@ -212,10 +210,6 @@ public class ArbolGen {
         return s;
     }
 
-    
-    
-
-    
     //Ejercicios auxiliares ---------------------------------------------------
     public Lista listaQueJustificaLaAltura() {
         Lista n = new Lista();
