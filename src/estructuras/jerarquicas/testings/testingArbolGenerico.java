@@ -34,7 +34,6 @@ public class testingArbolGenerico {
         System.out.println("El elemento 3 pertenece "+n.pertenece(10));
         a=n.ancestros(10);
         System.out.println(a.toString());
-        a=n.listaQueJustificaLaAltura();
         System.out.println(a.toString());
 }
 }

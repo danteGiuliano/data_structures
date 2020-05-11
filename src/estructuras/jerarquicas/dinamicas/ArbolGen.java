@@ -5,6 +5,7 @@
  */
 package estructuras.jerarquicas.dinamicas;
 
+import estructuras.lineales.dinamicas.Cola;
 import estructuras.lineales.dinamicas.Lista;
 
 /**
@@ -31,9 +32,9 @@ public class ArbolGen {
                 if (bus.getHijoIzquierdo() == null) {
                     bus.setHijoIzquierdo(n);
                 } else {
-                    bus=bus.getHijoIzquierdo();
-                    while(bus.getHermanoDerecho()!=null){
-                        bus=bus.getHermanoDerecho();
+                    bus = bus.getHijoIzquierdo();
+                    while (bus.getHermanoDerecho() != null) {
+                        bus = bus.getHermanoDerecho();
                     }
                     bus.setHermanoDerecho(n);
                 }
@@ -106,42 +107,37 @@ public class ArbolGen {
     public boolean esVacio() {
         return this.raiz == null;
     }
-//Arreglar este metodo.
-
     public int altura() {
-        return alturaAux(this.raiz, -1);
+        return auxAltura(this.raiz, -1);
     }
-
-    private int alturaAux(NodoGen raiz, int alt) {
-        if (raiz != null) {
-            while (raiz.getHermanoDerecho()!= null) {
-                raiz = raiz.getHermanoDerecho();
-                if (raiz.getHijoIzquierdo() != null) {
-                    alt = alturaAux(raiz.getHijoIzquierdo(), alt + 1);
-                } 
+    private int auxAltura(NodoGen nodo, int alt) {
+        if (nodo != null) {
+            int altI = auxAltura(nodo.getHijoIzquierdo(), alt + 1);
+            alt = auxAltura(nodo.getHermanoDerecho(), alt);
+            if (altI >= alt) {
+                alt = altI;
             }
-            alt = alturaAux(raiz.getHijoIzquierdo(), alt + 1);
         }
         return alt;
     }
 
     public int nivel(Object n) {
-        return nivelAux(this.raiz, n);
+        return nivelAux(this.raiz, n,0);
     }
 
-    private int nivelAux(NodoGen raiz, Object n) {
-        int r = -1;
+    private int nivelAux(NodoGen raiz, Object n,int r) {
+        int i=-1;
         if (raiz != null) {
             if (raiz.getElement().equals(n)) {
-                r = 0;
+                i = r;
             } else {
-                r = nivelAux(raiz.getHermanoDerecho(), n);
-                if (r == -1) {
-                    r = nivelAux(raiz.getHijoIzquierdo(), n) + 1;
+                    i = nivelAux(raiz.getHermanoDerecho(), n,r);
+                    if(i==-1&&raiz.getHijoIzquierdo()!=null){
+                    i = nivelAux(raiz.getHijoIzquierdo(), n,r+1) ;    
+                    }  
                 }
             }
-        }
-        return r;
+        return i;
     }
 
     public Object padre(Object hijo) {
@@ -209,24 +205,71 @@ public class ArbolGen {
         return s;
     }
 
-    //Ejercicios auxiliares ---------------------------------------------------
-    public Lista listaQueJustificaLaAltura() {
-        Lista n = new Lista();
-        Lista b = new Lista();
-        n = caminoAux(this.raiz, n, b);
-        return n;
+    public Lista listarPreorden() {
+        Lista ls = new Lista();
+        auxListarPreorden(this.raiz, ls);
+        return ls;
     }
 
-    private Lista caminoAux(NodoGen aux, Lista actual, Lista larga) {
-        if (aux != null) {
-            actual.insertar(aux.getElement(), 1);
-            larga.insertar(aux.getElement(), 1);
-            if (actual.longitud() <= larga.longitud()) {
-                larga = actual;
-            }
-            larga = caminoAux(aux.getHijoIzquierdo(), actual, larga);
-            larga = caminoAux(aux.getHermanoDerecho(), actual, larga);
+    private void auxListarPreorden(NodoGen nodo, Lista ls) {
+        if (nodo != null) {
+            ls.insertar(nodo.getElement(), ls.longitud() + 1);
+            auxListarPreorden(nodo.getHijoIzquierdo(), ls);
+            auxListarPreorden(nodo.getHermanoDerecho(), ls);
         }
-        return larga;
+    }
+
+    public Lista listarInorden() {
+        Lista ls = new Lista();
+        auxListarInorden(this.raiz, ls);
+        return ls;
+    }
+
+    private void auxListarInorden(NodoGen nodo, Lista ls) {
+        if (nodo != null) {
+            auxListarInorden(nodo.getHijoIzquierdo(), ls);
+            ls.insertar(nodo.getElement(), ls.longitud() + 1);
+            if (nodo.getHijoIzquierdo() != null) {
+                NodoGen aux = nodo.getHijoIzquierdo().getHermanoDerecho();
+                while (aux != null) {
+                    auxListarInorden(aux, ls);
+                    aux = aux.getHermanoDerecho();
+                }
+            }
+        }
+    }
+
+    public Lista listarPosorden() {
+        Lista ls = new Lista();
+        auxListarPosorden(this.raiz, ls);
+        return ls;
+    }
+
+    private void auxListarPosorden(NodoGen nodo, Lista ls) {
+        if (nodo != null) {
+            auxListarPosorden(nodo.getHijoIzquierdo(), ls);
+            ls.insertar(nodo.getElement(), ls.longitud() + 1);
+            auxListarPosorden(nodo.getHermanoDerecho(), ls);
+        }
+    }
+
+    public Lista listarPorNiveles() {
+        Lista ls = new Lista();
+        Cola cola = new Cola();
+        NodoGen nodo;
+        int aux = 1;
+        cola.poner(this.raiz);
+        while (!cola.esVacia()) {
+            nodo = (NodoGen) cola.obtenerFrente();
+            cola.sacar();
+            ls.insertar(nodo.getElement(), aux);
+            aux++;
+            nodo = nodo.getHijoIzquierdo();
+            while (nodo != null) {
+                cola.poner(nodo);
+                nodo = nodo.getHermanoDerecho();
+            }
+        }
+        return ls;
     }
 }
