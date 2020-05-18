@@ -10,7 +10,7 @@ package estructuras.conjuntistas;
  * @author Dantesito
  */
 public class ArbolBB {
-
+//este algoritmo es un arbol binario de busqueda que implementa el heap
     private NodoBB raiz;
 
     public ArbolBB() {
