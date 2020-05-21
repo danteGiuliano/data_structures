@@ -64,7 +64,7 @@ public class ArbolBin {
         int altD = 0;
         int altIzq = 0;
         if (aux != null) {
-            altD =recorrido(aux.getDerecho()) + 1;
+            altD = recorrido(aux.getDerecho()) + 1;
             altIzq = recorrido(aux.getIzquierdo()) + 1;
             if (altIzq >= altD) {
                 altD = altIzq;
@@ -238,4 +238,40 @@ public class ArbolBin {
             preOrdenAux(nodo.getIzquierdo(), lista, pos);
         }
     }
+
+    //Ejercicios de parcial ------------------------------------------
+    public boolean equals(ArbolBin otro) {
+        boolean compare = false;
+        if (this.raiz != null && otro.raiz != null) {
+            compare = equalsAux(this.raiz, otro.raiz, true);
+        }
+        return compare;
+    }
+    private boolean equalsAux(NodoArbol own, NodoArbol other, boolean flag) {
+        //Uso un metodo auxiliar para corroborar
+        if (compare(own, other)) {
+            flag = equalsAux(own.getDerecho(), other.getDerecho(), true);
+            //En el caso que no sean iguales y queden acoplados llamados.
+            if (flag == true) {
+                flag = equalsAux(own.getIzquierdo(), other.getIzquierdo(), true);
+            }
+        } else {
+            //Compare devuelve si alguno de los 2 es falso, pero si ambos nodos
+            //Son falsos entonces se interpreta que son iguales
+            if (own == null && other == null) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        }
+        return flag;
+    }
+    private boolean compare(NodoArbol a, NodoArbol b) {
+        boolean exito = false;
+        if (a != null && b != null) {
+            exito = a.getElemet().equals(b.getElemet());
+        }
+        return exito;
+    }
+
 }

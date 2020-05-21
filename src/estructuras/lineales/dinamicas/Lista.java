@@ -102,7 +102,7 @@ public class Lista {
     public int localizar(Object elem) {
         int pos = 1;//Supongo que la lista tiene 1 elemento. 
         Nodo aux = this.cabecera;
-        while (aux!=null) {
+        while (aux != null) {
             if (aux.getElement().equals(elem)) {
                 aux = null;
             } else {
@@ -145,6 +145,7 @@ public class Lista {
         }
         return aux;
     }
+//Ejercicios para practicar para el parcial
 
     public Lista invertirLista() {
         Lista ls = new Lista();
@@ -185,5 +186,27 @@ public class Lista {
         }
         return aux;
     }
-   
+
+    public void agregarElem(Object nuevo, int x) {
+//Caso de una lista Vacia
+        if (this.cabecera != null) {
+            //Teniendo en cuenta una lista no vacia
+            Nodo aux = this.cabecera;
+            int nuevaLongitud = this.longitud, flag = 1;
+            while (aux != null) {
+                if ((flag % x) == 0) {
+                    Nodo nuevoEnlace = new Nodo(nuevo, aux.getEnlace());
+                    aux.setEnlance(nuevoEnlace);
+                    aux = aux.getEnlace();
+                    nuevaLongitud++;
+                }
+                aux = aux.getEnlace();
+                flag++;
+            }
+            //Actualizo la nueva lista
+            this.cabecera = new Nodo(nuevo,this.cabecera);
+            this.longitud = nuevaLongitud;
+        }
+    }
+    
 }
