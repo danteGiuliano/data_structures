@@ -11,6 +11,7 @@ package estructuras.conjuntistas;
  */
 public class ArbolBB {
 //arbolito
+
     private NodoBB raiz;
 
     public ArbolBB() {
@@ -30,10 +31,10 @@ public class ArbolBB {
     private boolean insertarAux(NodoBB aux, Comparable elem) {
         boolean flag = true;
         //Comparo que no sean iguales
-        if (elem.compareTo(aux.getElemet()) == 0) {
+        if (elem.compareTo(aux.getElemento()) == 0) {
             flag = false;
             //Coomo el arbol es minimo verifico que sea menor
-        } else if (elem.compareTo(aux.getElemet()) < 0) {
+        } else if (elem.compareTo(aux.getElemento()) < 0) {
             if (aux.getIzquierdo() != null) {
                 flag = insertarAux(aux.getIzquierdo(), elem);
             } else {
@@ -59,7 +60,7 @@ public class ArbolBB {
 
     private boolean eliminarAux(NodoBB arbol, Comparable elem, NodoBB padre) {
         boolean flag = false;
-        if (elem.compareTo(arbol.getElemet()) == 0) {
+        if (elem.compareTo(arbol.getElemento()) == 0) {
             flag = true;
             //Caso 1 no tiene hojas
             if (arbol.getIzquierdo() == null && arbol.getDerecho() == null) {
@@ -78,12 +79,13 @@ public class ArbolBB {
             }
         } else {
             flag = eliminarAux(arbol.getIzquierdo(), elem, arbol);
-            if(flag==false){
-            flag = eliminarAux(arbol.getDerecho(), elem, arbol);    
+            if (flag == false) {
+                flag = eliminarAux(arbol.getDerecho(), elem, arbol);
             }
         }
         return flag;
     }
+
     private void eliminarCasoEspecial(NodoBB arbol) {
         NodoBB candidato = arbol.getIzquierdo();
         NodoBB padreCan = arbol;
@@ -91,11 +93,35 @@ public class ArbolBB {
             padreCan = candidato;
             candidato = candidato.getDerecho();
         }
-        arbol.setElement(new NodoBB(candidato.getElemet()));
+        arbol.setDerecho(new NodoBB(candidato.getElemento()));
         if (candidato.getIzquierdo() == null) {
             candidato = null;
         } else {
             padreCan.setDerecho(candidato.getIzquierdo());
         }
+    }
+
+    public boolean esVacio() {
+        return this.raiz == null;
+    }
+
+    public boolean pertenece(Comparable elemento) {
+        return perteneceAux(this.raiz, elemento);
+    }
+    
+    private boolean perteneceAux(NodoBB node, Comparable var) {
+        boolean flag = false;
+        if (node != null && !flag) {
+            if (node.getElemento().compareTo(var) == 0) {
+                flag = true;
+            } else {
+                if (node.getElemento().compareTo(var) > 0) {
+                    flag = perteneceAux(node.getDerecho(), var);
+                } else {
+                    flag = perteneceAux(node.getIzquierdo(), var);
+                }
+            }
+        }
+        return flag;
     }
 }

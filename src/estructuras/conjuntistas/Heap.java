@@ -13,10 +13,11 @@ public class Heap {
 
     private static final int TAM = 20;
     private Comparable[] heap;
-    private int ultimo = 0;
+    private int ultimo;
 
     public Heap() {
-        heap = new Comparable[TAM];
+        this.ultimo = -1;
+        this.heap = new Comparable[TAM];
     }
 
     public boolean insertar(Comparable aux) {
@@ -24,16 +25,11 @@ public class Heap {
         if (ultimo + 1 <= TAM - 1) {
             flag = true;
             ultimo++;
-            if (ultimo == 1) {
-                heap[1] = aux;
-            } else {
-                heap[ultimo] = aux;
-                subir(aux);
-            }
+            heap[ultimo] = aux;
+            subir(aux);
         }
         return flag;
     }
-
     private void subir(Comparable h) {
         boolean flag = false;
         int aux = this.ultimo;
@@ -45,21 +41,19 @@ public class Heap {
                 this.heap[aux / 2] = h;
                 this.heap[aux] = temp;
                 aux = aux / 2;
-            }
-            {
+            } else {
                 flag = true;
             }
         }
     }
-
     public boolean eliminarCima() {
         boolean flag = true;
-        if (this.ultimo == 0) {
+        if (this.ultimo == -1) {
             flag = false;
         } else {
-            this.heap[1] = this.heap[ultimo];
+            this.heap[0] = this.heap[ultimo];
             this.ultimo--;
-            hacerBajar(1);
+            hacerBajar(0);
         }
         return flag;
     }
@@ -83,31 +77,35 @@ public class Heap {
             }
         }
     }
-    public boolean esVacio(){
-        return this.ultimo==0;
+
+    public boolean esVacio() {
+        return this.ultimo == -1;
     }
-    public Object recuperarCima(){
-        Object aux=null;
-        if(this.ultimo!=0){
-            aux=this.heap[1];
+
+    public Object recuperarCima() {
+        Object aux = null;
+        if (this.ultimo != -1) {
+            aux = this.heap[0];
         }
         return aux;
     }
-    public String toString(){
-        String cad="Arbol Heap vacio";
-        if(this.ultimo!=0){
-            cad="";
+
+    public String toString() {
+        String cad = "Arbol Heap vacio";
+        if (this.ultimo != -1) {
+            cad = "";
             for (int i = 0; i < this.ultimo; i++) {
-                cad+=this.heap[i];
+                cad += this.heap[i];
             }
         }
         return cad;
     }
+
     @Override
-    public Heap clone(){
+    public Heap clone() {
         Heap n = new Heap();
-        n.heap= this.heap.clone();
-        n.ultimo=this.ultimo;
+        n.heap = this.heap.clone();
+        n.ultimo = this.ultimo;
         return n;
-    } 
+    }
 }

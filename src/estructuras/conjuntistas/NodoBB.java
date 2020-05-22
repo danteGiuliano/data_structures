@@ -5,28 +5,26 @@
  */
 package estructuras.conjuntistas;
 
-import estructuras.jerarquicas.dinamicas.*;
-
 /**
  *
  * @author Dantesito
  */
  class NodoBB {
- private   Object elem ;
+ private   Comparable elem ;
  private    NodoBB izquierdo;
  private  NodoBB derecho;
 
-public NodoBB(Object unElemento,NodoBB der,NodoBB izq){
+public NodoBB(Comparable unElemento,NodoBB der,NodoBB izq){
     this.elem=unElemento;
     this.derecho=der;
     this.izquierdo=izq;
 }
-public NodoBB(Object ele){
+public NodoBB(Comparable ele){
     this.elem=ele;
     this.izquierdo=null;
     this.derecho=null;
 }
-public void setElement(Object aux){
+public void setElemento(Comparable aux){
     this.elem=aux;
 }
 public void setDerecho(NodoBB der){
@@ -35,7 +33,7 @@ public void setDerecho(NodoBB der){
 public void setIzquierdo(NodoBB izq){
     this.izquierdo=izq;    
 }
-public Object getElemet(){
+public Comparable getElemento(){
     return this.elem;
 }
 public NodoBB getIzquierdo(){
