@@ -16,89 +16,87 @@ public class Heap {
     private int ultimo;
 
     public Heap() {
-        this.ultimo = -1;
+        this.ultimo = 0;
         this.heap = new Comparable[TAM];
     }
 
     public boolean insertar(Comparable aux) {
         boolean flag = false;
-        if (ultimo + 1 <= TAM - 1) {
+        if (ultimo + 1 < TAM) {
             flag = true;
             ultimo++;
             heap[ultimo] = aux;
-            subir(aux);
-        }
-        return flag;
-    }
-    private void subir(Comparable h) {
-        boolean flag = false;
-        int aux = this.ultimo;
-        Comparable temp;
-        while (!flag && aux > 1) {
-            //Busco entre los padres si es menor
-            temp = this.heap[aux / 2];
-            if (h.compareTo(temp) > 0) {
-                this.heap[aux / 2] = h;
-                this.heap[aux] = temp;
-                aux = aux / 2;
-            } else {
-                flag = true;
-            }
-        }
-    }
-    public boolean eliminarCima() {
-        boolean flag = true;
-        if (this.ultimo == -1) {
-            flag = false;
-        } else {
-            this.heap[0] = this.heap[ultimo];
-            this.ultimo--;
-            hacerBajar(0);
+            hacerSubir(ultimo);
         }
         return flag;
     }
 
-    private void hacerBajar(int posPad) {
-        int posH = posPad;
-        Comparable temp = this.heap[posPad];
-        boolean flag = false;
-        while (!flag && posH <= this.ultimo) {
-            posH = posPad * 2;
-            if (posH < this.ultimo) {
-                if (this.heap[posH + 1].compareTo(this.heap[posH]) < 0) {
-                    posH++;
+    private void hacerSubir(int posHijo) {
+        int posP;
+        Comparable temp = this.heap[posHijo];
+        boolean flag = true;
+        while (flag) {
+            posP = posHijo / 2;
+            if (posP >= 1) {
+                if (this.heap[posP].compareTo(temp) > 0) {
+                    //intercambio
+                    this.heap[posHijo] = this.heap[posP];
+                    this.heap[posP] = temp;
+                    posHijo = posP;
+                } else {
+                    flag = false;
                 }
-            }
-            if (this.heap[posH].compareTo(temp) < 0) {
-                this.heap[posPad] = this.heap[posH];
-                this.heap[posH] = temp;
             } else {
                 flag = false;
             }
         }
     }
 
-    public boolean esVacio() {
-        return this.ultimo == -1;
+    public boolean eliminarCima() {
+        boolean flag = true;
+        if (this.ultimo == 0) {
+            flag = false;
+        } else {
+            this.heap[1] = this.heap[ultimo];
+            this.ultimo--;
+            hacerBajar(1);
+        }
+        return flag;
     }
 
-    public Object recuperarCima() {
-        Object aux = null;
-        if (this.ultimo != -1) {
-            aux = this.heap[0];
+    private void hacerBajar(int posPadre) {
+        int posH = posPadre * 2;
+        Comparable temp = this.heap[posPadre];
+        boolean flag = true;
+        while (flag && posH <= this.ultimo) {
+            //Caso 1
+            if (posH < this.ultimo) {
+                if (this.heap[posH + 1].compareTo(this.heap[posH]) < 0) 
+                    posH++;              
+            }
+            //Caso 2
+            if (this.heap[posH].compareTo(temp) < 0) {
+                // el hijo es menor que el padre, los intercambia
+                this.heap[posPadre] = this.heap[posH];
+                this.heap[posH] = temp;
+                posPadre = posH;
+            } else {
+                flag = false;
+            }
+            posH = posPadre * 2;
+        }
+    }
+
+    public boolean esVacio() {
+        return this.ultimo == 0;
+    }
+
+    public Comparable recuperarCima() {
+        Comparable aux = null;
+        if (this.ultimo != 0) {
+            aux = this.heap[1];
         }
         return aux;
-    }
-
-    public String toString() {
-        String cad = "Arbol Heap vacio";
-        if (this.ultimo != -1) {
-            cad = "";
-            for (int i = 0; i < this.ultimo; i++) {
-                cad += this.heap[i];
-            }
-        }
-        return cad;
     }
 
     @Override
@@ -107,5 +105,28 @@ public class Heap {
         n.heap = this.heap.clone();
         n.ultimo = this.ultimo;
         return n;
+    }
+
+    public void vaciar() {
+        this.heap = new Comparable[TAM];
+        this.ultimo = 0;
+    }
+
+    public String toString() {
+        String cad = "Arbol Heap Vacio";
+        if (this.ultimo != 0) {
+            cad = "";
+            for (int i = 1; i <= this.ultimo; i++) {
+                cad += this.heap[i].toString() + " :";
+                if (2 * i <= this.ultimo) {
+                    cad += " HI->" + this.heap[2 * i].toString();
+                }
+                if (2 * i + 1 <= this.ultimo) {
+                    cad += " HD->" + this.heap[2 * i + 1].toString();
+                }
+                cad += "\n";
+            }
+        }
+        return cad;
     }
 }

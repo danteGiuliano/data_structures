@@ -111,7 +111,7 @@ public class ArbolBB {
     
     private boolean perteneceAux(NodoBB node, Comparable var) {
         boolean flag = false;
-        if (node != null && !flag) {
+        if (node != null) {
             if (node.getElemento().compareTo(var) == 0) {
                 flag = true;
             } else {
@@ -123,5 +123,11 @@ public class ArbolBB {
             }
         }
         return flag;
+    }
+    public Comparable minimoElem(){
+        return minimoElemAux(this.raiz);
+    }
+    private Comparable minimoElemAux(NodoBB aux){
+   return aux.getElemento();
     }
 }

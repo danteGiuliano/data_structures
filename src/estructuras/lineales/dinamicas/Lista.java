@@ -204,9 +204,52 @@ public class Lista {
                 flag++;
             }
             //Actualizo la nueva lista
-            this.cabecera = new Nodo(nuevo,this.cabecera);
+            this.cabecera = new Nodo(nuevo, this.cabecera);
             this.longitud = nuevaLongitud;
         }
     }
-    
-}
+
+    public Lista obtenerMultiplos(int num) {
+        Lista ls = new Lista();
+        if (this.cabecera != null) {
+            Nodo nCabecera = ls.cabecera;
+            int i = 0;
+            Nodo aux = this.cabecera;
+
+            while (aux.getEnlace() != null) {
+                if ((i % num) == 0) {
+                    Nodo nuevo = new Nodo(aux.getElement(), null);
+                    nCabecera.setEnlance(nuevo);
+                    nCabecera = nuevo;
+                    ls.longitud = ls.longitud + 1;
+                }
+                i++;
+            }
+        }
+        return ls;
+    }
+
+    public Lista slice(Object izq, Object der) {
+        Lista res = new Lista();
+        if (this.cabecera != null) {
+            sliceAux(this.cabecera, izq, der, res, false);
+        }
+        return res;
+    }
+
+    private void sliceAux(Nodo cab, Object izq, Object der, Lista res, boolean flag) {
+        if (cab.getEnlace().getElement().equals(der)) {
+            Nodo n = new Nodo(cab.getElement(), res.cabecera);
+            res.cabecera = n;
+        } else {
+            if (cab.getEnlace().getElement().equals(izq) || flag) {
+                Nodo n = new Nodo(cab.getElement(), res.cabecera);
+                res.cabecera = n;
+                flag = true;
+            }
+            sliceAux(cab.getEnlace(), izq, der, res, flag);
+        }
+    }
+    }
+
+
