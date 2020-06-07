@@ -10,6 +10,7 @@ package estructuras.conjuntistas;
  * @author Dantesito
  */
 public class Heap {
+//Esta implementacion corresponde al Heap minimo.
 
     private static final int TAM = 20;
     private Comparable[] heap;
@@ -30,6 +31,11 @@ public class Heap {
         }
         return flag;
     }
+    
+//    este metodo es auxiliar para subir el insertar
+//    utiliza la ultima posicion ya que se sabe que su padre estara en la posicion
+//    ultimo/2. se repite este proceso n veces 
+//    hasta una condicion de corte donde la raiz contenga el menor elemento
 
     private void hacerSubir(int posHijo) {
         int posP;
@@ -64,6 +70,13 @@ public class Heap {
         return flag;
     }
 
+    /**
+     * Este metodo se encarga de buscar al nuevo elemento minimo que estara en
+     * la raiz . la ultima posicion deberia almacenar al mayor elemento del
+     * arbol esto permite realizar n iteraciones con intercambios.
+     * al hacer esto se puede asegurar que el arbol tendra al minimo elemento
+     * como raiz
+     */
     private void hacerBajar(int posPadre) {
         int posH = posPadre * 2;
         Comparable temp = this.heap[posPadre];
@@ -71,8 +84,9 @@ public class Heap {
         while (flag && posH <= this.ultimo) {
             //Caso 1
             if (posH < this.ultimo) {
-                if (this.heap[posH + 1].compareTo(this.heap[posH]) < 0) 
-                    posH++;              
+                if (this.heap[posH + 1].compareTo(this.heap[posH]) < 0) {
+                    posH++;
+                }
             }
             //Caso 2
             if (this.heap[posH].compareTo(temp) < 0) {
