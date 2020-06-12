@@ -15,8 +15,7 @@ public class Cola {
     private Nodo frente;
 
     public Cola() {
-        this.fin = null;
-        this.frente = null;
+        this.fin =this.frente= null;
     }
 
     public boolean poner(Object aux) {
@@ -53,28 +52,20 @@ public class Cola {
     }
 
     public Cola clone() {
-        Cola n = new Cola();
+        Cola q = new Cola();
         if (this.frente != null) {
-            Nodo frente = this.frente;
-            n = cloneAux(n, frente);
+            cloneAux(q, frente);
         }
-        return n;
+        return q;
     }
 
-    private Cola cloneAux(Cola aux, Nodo ins) {
-        Object elem;
-        if (ins.getEnlace() != null) {
-            elem = ins.getElement();
-            aux = cloneAux(aux, ins.getEnlace());
-            Nodo n = new Nodo(elem, aux.frente);
-            aux.frente = n;
-        } else {
-            elem = ins.getElement();
-            Nodo n = new Nodo(elem, null);
-            aux.fin = n;
-            aux.frente=n;
-        }
-        return aux;
+    private void cloneAux(Cola q, Nodo ins) {
+        if(ins!=null){
+            Nodo n = new Nodo(ins.getElement(),null);
+            q.fin.setEnlance(n);
+            q.fin=n;
+            cloneAux(q,ins.getEnlace());
+    }
     }
     public String toString(){
         String cad ="Cola vacia";

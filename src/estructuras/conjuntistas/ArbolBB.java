@@ -12,7 +12,6 @@ import estructuras.lineales.dinamicas.Lista;
  * @author Dantesito
  */
 public class ArbolBB {
-//arbolito
 
     private NodoBB raiz;
 
