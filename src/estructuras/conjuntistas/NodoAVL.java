@@ -15,6 +15,8 @@ package estructuras.conjuntistas;
     private NodoAVL izquierdo;
     private NodoAVL derecho;
     public NodoAVL(Comparable elemento,NodoAVL izq,NodoAVL der){
+        //Si se ingresa un null como hijo derecho o izquierdo va a tomar 
+       // una altura erronea
         this.izquierdo=izq;
         this.derecho=der;
         this.elemento=elemento;
@@ -43,9 +45,21 @@ package estructuras.conjuntistas;
         this.izquierdo=izq;
     }
     public void setElemento(Comparable elem){
+        //Si seteo un nulo como elemento el tda se rompera. ya que la altura
+        //deberia ser -1 (Nodo vacio) pero puede tener hijos .
         this.elemento=elem;
     }
     public void recalcularAltura(){
-        this.altura=(this.derecho.getAltura()-this.izquierdo.getAltura());
+        if(this.derecho!=null||this.izquierdo!=null){
+        int altD=0,altI=0;     
+        if(this.derecho!=null){
+            altD=this.derecho.getAltura();
+        }
+        if(this.izquierdo!=null){
+            altI=this.getAltura();
+        }
+        this.altura=Math.max(altD,altI)+1;
+    }
+      
     }
 }
