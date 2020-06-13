@@ -36,7 +36,7 @@ public class TestBinario {
     
     public static void main(String args[]){
     
-        System.out.println( ANSI_CYAN_BACKGROUND  + ROJO +  "**************************************************************");
+         System.out.println( ANSI_CYAN_BACKGROUND  + ROJO +  "**************************************************************");
         System.out.println( ANSI_CYAN_BACKGROUND + ROJO + "*                  Test Arbol Binario                        *");
         System.out.println( ANSI_CYAN_BACKGROUND + ROJO + "**************************************************************"+"\n\n"+ RESET);
         
@@ -96,7 +96,7 @@ public class TestBinario {
                 + " \n \t \t 9 \t \t \t 15"
                 + " \n \t 7 \t \t 3 \t 12 \t \t 20"
                 + " \n \t \t 10 \t \t \t"
-                +"\t \t --> \t \t"+ b.toString());
+                +"\t \t --> \t \t"+"\n"+ b.toString());
         System.out.println("\n");
         System.out.println("Inserto el 25 como hijo D de 20 en CLON" + ((  b.insertar(25, 20, 'D')) ? sOk : sErr));
         System.out.println("Inserto el 35 como hijo I de 20 en CLON" + ((  b.insertar(35, 20, 'I')) ? sOk : sErr));
@@ -141,13 +141,33 @@ public class TestBinario {
         System.out.println("\n\n**********************************");
         System.out.println("*      Test de Recorridos        *");
         System.out.println("**********************************\n");
+            System.out.println("\n Arbol de prueba : \n\n \t \t \t      10"
+                + " \n \t \t 9 \t \t \t 15"
+                + " \n \t 7 \t \t 3 \t 12 \t \t 20"
+                + " \n \t \t 10 \t \t");
         
    System.out.println("Recorrido en preOrden.\n Tiene que dar: [ 10 - 9 - 7 - 3 - 10 - 15 - 12 - 20 ]  " + a.listarPreorden().toString());
         System.out.println("\n");
    System.out.println("Recorrido en posOrden.\n Tiene que dar: [ 7 - 10 - 3 - 9 - 12 - 20 - 15 - 10 ]  " + a.listarPosorden().toString());
         System.out.println("\n");
    System.out.println("Recorrido en InOrden.\n Tiene que dar: [ 7 - 9 - 10 - 3 - 10 - 12 - 15 - 20 ]  " + a.listarInorden().toString());
+        System.out.println("\n");
+        System.out.println("Listar por niveles.\n Tiene que dar: [10 - 9 - 15 - 7 - 3 - 12 - 20 - 10]"+a.listarNiveles().toString());
+        System.out.println("\n");
+         System.out.println("Inserto 0 como hijo derecho de 3 debe dar "+sOk+"--->"+((  a.insertar(0, 3, 'D')) ? sOk : sErr));
+        System.out.println("Inserto -1 como hijo derecho de 0 debe  "+sOk+"--->"+((  a.insertar(-1, 0, 'D')) ? sOk : sErr));
+         System.out.println("Listar por niveles.\n Tiene que dar: [10 - 9 - 15 - 7 - 3 - 12 - 20 - 10 - 0 - -1]"+a.listarNiveles().toString());
+        System.out.println("\n");
+         System.out.println("\n\n**********************************");
+        System.out.println("*    Test de obtener ancestros  *");
+        System.out.println("**********************************\n");
+        System.out.println("Obtener ancestros de 20 Tiene que dar: [10-15] "+"---> "+a.obtenerAncestros(20).toString());
+        System.out.println("Obtener ancestros de 3 Tiene que dar: [10-9] "+"---> "+a.obtenerAncestros(3).toString());
+         System.out.println("Obtener ancestros de 15 Tiene que dar: [10] "+"---> "+a.obtenerAncestros(15).toString());
+        System.out.println("Obtener ancestros de 10 Tiene que dar: Lista vacia"+"----> "+a.obtenerAncestros(10).toString());
+        System.out.println("Obtener ancestros de 44 Tiene que dar: Lista vacia "+"----> "+a.obtenerAncestros(44).toString());
+        System.out.println("Obtener ancestros de -1 Tiene que dar: [10-9-3-0] "+"---> "+a.obtenerAncestros(-1).toString());
+        System.out.println("");
         
     }
-    
 }
