@@ -12,6 +12,7 @@ import estructuras.lineales.dinamicas.Cola;
  *
  * @author Dantesito
  */
+
 public class ArbolBin {
 
     private NodoArbol raiz;
@@ -20,6 +21,15 @@ public class ArbolBin {
         raiz = null;
     }
 
+    /**
+     * Realiza una insercion buscando al padre del elemento,si la posicion esta
+     * disponible entonces inserta y devuelve true, si no devuelve false.
+     *
+     * @param elem elemento a insertar
+     * @param padre nodo padre del elemento
+     * @param lugar rama para insertar el hijo Derecho o izquierdo
+     * @return
+     */
     public boolean insertar(Object elem, Object padre, char lugar) {
         boolean flag = true;
         if (raiz == null) {
@@ -56,16 +66,21 @@ public class ArbolBin {
         return resultado;
     }
 
+    /**
+     * Devuelve la maxima altura de un Arbol Binario.
+     *
+     * @return
+     */
     public int altura() {
-        return recorrido(this.raiz) - 1;
+        return alturaAux(this.raiz) - 1;
     }
 
-    private int recorrido(NodoArbol aux) {
+    private int alturaAux(NodoArbol aux) {
         int altD = 0;
-        int altIzq = 0;
+        int altIzq = 0; //Variable auxiliar.
         if (aux != null) {
-            altD = recorrido(aux.getDerecho()) + 1;
-            altIzq = recorrido(aux.getIzquierdo()) + 1;
+            altD = alturaAux(aux.getDerecho()) + 1;
+            altIzq = alturaAux(aux.getIzquierdo()) + 1;
             if (altIzq >= altD) {
                 altD = altIzq;
             }
@@ -73,19 +88,28 @@ public class ArbolBin {
         return altD;
     }
 
+    /**
+     * Metodo vaciar, simplificado por funcionalidades de Java, Garbare
+     * collector
+     */
     public void vaciar() {
         this.raiz = null;
     }
 
+    /**
+     * toString metodo especial para debugear la clase Arbol Binario. dejar en
+     * private para el usuario
+     *
+     * @return un String simulando la estructura de un Arbol Binario
+     */
     public String toString() {
-        String cadena;
-        cadena = imprimir(this.raiz);
-        return cadena;
+        return imprimir(this.raiz);
     }
 
     private String imprimir(NodoArbol nodo) {
-        String cadena = "";
+        String cadena = "Arbol vacio";
         if (nodo != null) {
+            cadena = "";
             if (nodo.getDerecho() != null || nodo.getIzquierdo() != null) {
                 cadena += "Raiz: " + nodo.getElemet();
                 if (nodo.getIzquierdo() != null) {
@@ -107,6 +131,12 @@ public class ArbolBin {
         return cadena;
     }
 
+    /**
+     * Estructura basica de una clonacion, **IMPORTANTE** el algoritmo funciona
+     * dependiendo como este el constructor de NodoArbol.
+     *
+     * @return un Arbol Binario igual.
+     */
     public ArbolBin clone() {
         ArbolBin nuevo = new ArbolBin();
         nuevo.raiz = clonarAux(this.raiz);
@@ -121,6 +151,12 @@ public class ArbolBin {
         return hijo;
     }
 
+    /**
+     * busca el nivel de profundidad de un elemento que pertenesca al arbol
+     *
+     * @param aux elemento a buscar
+     * @return -1 en caso de no estar , x >=0 si lo encontro
+     */
     public int nivel(Object aux) {
         int r = -1;
         if (this.raiz != null) {
@@ -144,48 +180,60 @@ public class ArbolBin {
         return resultado;
     }
 
+    /**
+     * Version diferente de obtenerPadre pasando por parametro al padre del
+     * nodo.
+     *
+     * @param hijo
+     * @return
+     */
     public Object padre(Object hijo) {
         Object aux = null;
         if (this.raiz != null) {
-            if (!raiz.getElemet().equals(hijo)) {
-                aux = busPadre(this.raiz, hijo, this.raiz.getElemet());
-            }
+            aux = padreAux(this.raiz, hijo, null);
+
         }
         return aux;
     }
 
-    private Object busPadre(NodoArbol aux, Object hijo, Object padre) {
+    private Object padreAux(NodoArbol aux, Object hijo, Object padre) {
         Object r = null;
         if (aux != null) {
             if (aux.getElemet().equals(hijo)) {
                 r = padre;
             } else {
-                r = busPadre(aux.getIzquierdo(), hijo, aux.getElemet());
+                r = padreAux(aux.getIzquierdo(), hijo, aux.getElemet());
                 if (r == null) {
-                    r = busPadre(aux.getDerecho(), hijo, aux.getElemet());
+                    r = padreAux(aux.getDerecho(), hijo, aux.getElemet());
                 }
             }
         }
         return r;
     }
 
+    /**
+     * Recorrido como niveles en un Arbol,Nivel 0 Raiz, nivel 1 hijos de
+     * raiz.etc
+     *
+     * @return una Lista en forma descendente
+     */
     public Lista listarNiveles() {
         Lista lista = new Lista();
         Cola aux = new <NodoArbol>Cola();
-        NodoArbol raiz = this.raiz;
+        NodoArbol node = this.raiz;
         int index = 1;
-        if (raiz != null) {
-            aux.poner(raiz);
-            while (aux.esVacia()) {
+        if (node != null) {
+            aux.poner(node);
+            while (!aux.esVacia()) {
                 NodoArbol actual = (NodoArbol) aux.obtenerFrente();
-                lista.insertar(actual, index);
+                lista.insertar(actual.getElemet(), index);
                 aux.sacar();
                 index++;
-                if (actual.getDerecho() != null) {
-                    aux.poner(actual.getDerecho());
-                }
                 if (actual.getIzquierdo() != null) {
                     aux.poner(actual.getIzquierdo());
+                }
+                if (actual.getDerecho() != null) {
+                    aux.poner(actual.getDerecho());
                 }
             }
         }
@@ -196,6 +244,11 @@ public class ArbolBin {
         return this.raiz == null;
     }
 
+    /**
+     * recorrido en inorden en un formato de Lista Raiz-Izquierdo-derecho
+     *
+     * @return una lista
+     */
     public Lista listarInorden() {
         Lista lista = new Lista();
         inOrdenAux(this.raiz, lista);
@@ -210,6 +263,11 @@ public class ArbolBin {
         }
     }
 
+    /**
+     * recorrido en pos Orden en un formato de Lista, Derecha-Raiz-Izquierda
+     *
+     * @return una lista
+     */
     public Lista listarPosorden() {
         Lista lista = new Lista();
         posOrdenAux(this.raiz, lista);
@@ -224,6 +282,11 @@ public class ArbolBin {
         }
     }
 
+    /**
+     * recorrido en pre Orden en un formato de Lista Izquierda-Raiz-Derecha
+     *
+     * @return
+     */
     public Lista listarPreorden() {
         Lista lista = new Lista();
         preOrdenAux(this.raiz, lista, 1);
@@ -238,6 +301,46 @@ public class ArbolBin {
             preOrdenAux(nodo.getIzquierdo(), lista, pos);
         }
     }
+
+    /**
+     * Ejercicio 3.1 obtener ancestros. devuelve en un formato de Lista todos
+     * los padres de la primera ocurrencia del elemento
+     * desde la Raiz hasta el nodo del elemento("Excluyente").
+     */
+    public Lista obtenerAncestros(Object hijo) {
+        Lista lista = new Lista();
+        obtenerAncestrosAux(lista, hijo, this.raiz);
+        return lista;
+    }
+
+    /**
+     * Se usa una condicion booleana para claridad del modulo
+     *
+     * @param lista lista que se retorna, pasada por referencia
+     * @param hijo elemento a buscar cuando se encuentra comienza a insertar
+     * @param padre Nodo de busqueda.
+     */
+    private boolean obtenerAncestrosAux(Lista lista, Object hijo, NodoArbol padre) {
+        boolean flag = false;
+        if (padre != null) {
+            if (padre.getElemet().equals(hijo)) {
+                flag = true;
+            } else {
+                //La rama izquierda o derecha es equivalente.
+                flag = obtenerAncestrosAux(lista, hijo, padre.getIzquierdo());
+                //Esta condicion indica el comportamiento del modulo y evita 
+                //llamadas extras.
+                if (!flag) {
+                    flag = obtenerAncestrosAux(lista, hijo, padre.getDerecho());
+                }
+                if (flag) {
+                    lista.insertar(padre.getElemet(), 1);
+                }
+            }
+        }
+        return flag;
+    }
+
 
     //Ejercicios de parcial ------------------------------------------
     public boolean equals(ArbolBin otro) {
