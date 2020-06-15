@@ -12,19 +12,20 @@ import estructuras.lineales.dinamicas.Lista;
  * @author Dantesito
  */
 public class ArbolBB {
-
+    
     private NodoBB raiz;
-
+    
     public ArbolBB() {
         this.raiz = null;
     }
-/**
- * Este metodo se encarga de insertar y acomodar los elementos dependiendo de 
- * si son menores o mayores. la insercicon es de orden O(log n)
- * 
- * @param elem representa el elemento que se quiera insertar en el arbol
- * @return devuelve true o false por cuestiones de performance
- */
+
+    /**
+     * Este metodo se encarga de insertar y acomodar los elementos dependiendo
+     * de si son menores o mayores. la insercicon es de orden O(log n)
+     *
+     * @param elem representa el elemento que se quiera insertar en el arbol
+     * @return devuelve true o false por cuestiones de performance
+     */
     public boolean insertar(Comparable elem) {
         boolean flag = true;
         if (this.raiz == null) {
@@ -34,7 +35,7 @@ public class ArbolBB {
         }
         return flag;
     }
-
+    
     private boolean insertarAux(NodoBB aux, Comparable elem) {
         boolean flag = true;
         //Comparo que no sean iguales
@@ -56,18 +57,18 @@ public class ArbolBB {
         }
         return flag;
     }
-
+    
     public boolean eliminar(Comparable elem) {
         boolean flag = false;
         if (this.raiz != null) {
-            flag = auxEliminar(elem,this.raiz, null);
+            flag = auxEliminar(elem, this.raiz, null);
         }
         return flag;
     }
-
-     private boolean auxEliminar(Comparable elemento, NodoBB actual, NodoBB padre) {
+    
+    private boolean auxEliminar(Comparable elemento, NodoBB actual, NodoBB padre) {
         boolean flag = false;
-        if (actual != null) {  
+        if (actual != null) {
             //Esto es para no recorrer todo el arbol O(log n).
             if (actual.getElemento().compareTo(elemento) > 0) {
                 flag = auxEliminar(elemento, actual.getIzquierdo(), actual);
@@ -82,14 +83,14 @@ public class ArbolBB {
                     caso1(elemento, padre);
                 } else {
                     if (actual.getIzquierdo() == null || actual.getDerecho() == null) {
-                        caso2(elemento,actual,padre);
+                        caso2(elemento, actual, padre);
                     } else {
                         caso3(actual);
                     }
                 }
             }
         }
-
+        
         return flag;
     }
 
@@ -125,25 +126,28 @@ public class ArbolBB {
             }
         }
     }
+
     /**
-     * Usar el candidato A (El mayor del subarbol izquierdo de N, siendo N el nodo a eliminar).
+     * Usar el candidato A (El mayor del subarbol izquierdo de N, siendo N el
+     * nodo a eliminar).
+     *
      * @param actual envia el nodo a eliminar.
      */
-    private void caso3(NodoBB actual){
+    private void caso3(NodoBB actual) {
         
-        NodoBB nodoA=actual.getIzquierdo(),nodoPadreA=actual;
-        while (nodoA.getDerecho() != null){
-            nodoPadreA=nodoA;
-            nodoA=nodoA.getDerecho();
+        NodoBB nodoA = actual.getIzquierdo(), nodoPadreA = actual;
+        while (nodoA.getDerecho() != null) {
+            nodoPadreA = nodoA;
+            nodoA = nodoA.getDerecho();
         }
         actual.setElemento(nodoA.getElemento());
-        if (nodoA.getIzquierdo() == null && nodoA.getDerecho() == null){
-            caso1(nodoA.getElemento(),nodoPadreA);
+        if (nodoA.getIzquierdo() == null && nodoA.getDerecho() == null) {
+            caso1(nodoA.getElemento(), nodoPadreA);
         } else {
-            caso2(nodoA.getElemento(),nodoA,nodoPadreA);
+            caso2(nodoA.getElemento(), nodoA, nodoPadreA);
         }
     }
-
+    
     public boolean esVacio() {
         return this.raiz == null;
     }
@@ -158,7 +162,7 @@ public class ArbolBB {
     public boolean pertenece(Comparable elemento) {
         return perteneceAux(this.raiz, elemento);
     }
-
+    
     private boolean perteneceAux(NodoBB node, Comparable var) {
         boolean flag = false;
         if (node != null) {
@@ -174,25 +178,51 @@ public class ArbolBB {
         }
         return flag;
     }
-
+    /**
+     * Busquedas de minimo y maximos elementos /Con polimorfismo seria mejor.
+     * Orden O(n log)
+     * @return Null arbol vacio, un Comparable min, max. respectivamente.
+     */
     public Comparable minimoElem() {
-        return minimoElemAux(this.raiz);
+        Comparable r = null;
+        if (this.raiz != null) {
+            r = minimoElemAux(this.raiz);
+        }
+        return r;
+    }
+    
+    private Comparable minimoElemAux(NodoBB aux) {
+        while (aux.getIzquierdo() != null) {
+            aux = aux.getDerecho();
+        }
+        return aux.getElemento();
     }
 
-    private Comparable minimoElemAux(NodoBB aux) {
+    public Comparable maximoElem() {
+        Comparable r = null;
+        if (this.raiz != null) {
+            r = maximoElemAux(this.raiz);
+        }
+        return r;
+    }
+    
+    private Comparable maximoElemAux(NodoBB aux) {
+        while (aux.getDerecho() != null) {
+            aux = aux.getIzquierdo();
+        }
         return aux.getElemento();
     }
 
     /**
      * Reutilizacion del metodo toString de Arbol Binario. metodo de
-     * debug.!!!!!!!!!!!!!!!! Orden  O(n)
+     * debug.!!!!!!!!!!!!!!!! Orden O(n)
      */
     public String toString() {
         String cadena;
         cadena = imprimir(this.raiz);
         return cadena;
     }
-
+    
     private String imprimir(NodoBB nodo) {
         String cadena = "";
         if (nodo != null) {
@@ -218,15 +248,14 @@ public class ArbolBB {
     }
 
     /**
-     * Reutilizo el clone de Arbol Binario 
-     * Orden O(n)
+     * Reutilizo el clone de Arbol Binario Orden O(n)
      */
     public ArbolBB clone() {
         ArbolBB nuevo = new ArbolBB();
         nuevo.raiz = clonarAux(this.raiz);
         return nuevo;
     }
-
+    
     private NodoBB clonarAux(NodoBB aux) {
         NodoBB hijo = null;
         if (aux != null) {
@@ -241,6 +270,7 @@ public class ArbolBB {
      * izquierdo-Padre-Derecho.
      *
      * Orden O(n)
+     *
      * @return una lista con los minimos elementos en inorden
      */
     public Lista listar() {
@@ -250,12 +280,64 @@ public class ArbolBB {
         }
         return lista;
     }
-
+    
     private void listarAux(NodoBB node, Lista lista) {
         if (node != null) {
             listarAux(node.getDerecho(), lista);
             lista.agregarElem(node.getElemento(), 1);
             listarAux(node.getIzquierdo(), lista);
+        }
+    }
+/**
+ * Elimina el minimo elemento del arbol bb Orden O(n log)
+ * @return true si elimina , false si el arbol esta vacio
+ */
+    public boolean eliminarMin() {
+        boolean flag = false;
+        if (this.raiz != null) {
+            if (this.raiz.getIzquierdo() == null) {
+                this.raiz = this.raiz.getDerecho();
+            } else {
+                eliminarMinAux(this.raiz.getIzquierdo(), this.raiz);
+            }
+            flag = true;
+        }
+        return flag;
+    }
+
+    private void eliminarMinAux(NodoBB hijo, NodoBB padre) {
+        if (hijo.getIzquierdo() != null) {
+            eliminarMinAux(hijo.getIzquierdo(), hijo);
+        } else if (hijo.getDerecho() == null) {
+            padre.setIzquierdo(null);
+        } else {
+            padre.setIzquierdo(hijo.getDerecho());
+        }
+    }
+    /**
+     * Elimina el maximo elemento de un arbol bb Orden O(n log)
+     * @return true si elimina false si arbol es vacio
+     */
+      public boolean eliminarMax() {
+        boolean flag = false;
+        if (this.raiz != null) {
+            if (this.raiz.getDerecho() == null) {
+                this.raiz = this.raiz.getIzquierdo();
+            } else {
+                eliminarMinAux(this.raiz.getDerecho(), this.raiz);
+            }
+            flag = true;
+        }
+        return flag;
+    }
+
+    private void eliminarMaxAux(NodoBB hijo, NodoBB padre) {
+        if (hijo.getDerecho() != null) {
+            eliminarMinAux(hijo.getDerecho(), hijo);
+        } else if (hijo.getIzquierdo() == null) {
+            padre.setDerecho(null);
+        } else {
+            padre.setDerecho(hijo.getIzquierdo());
         }
     }
 }
